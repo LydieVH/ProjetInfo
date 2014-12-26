@@ -24,7 +24,7 @@ namespace ProjetInfo_GuidePrenoms
                     // Copie du fichier texte dans un tableau 
                     while (ligne != null)
                     {
-                        // IL FAUT CHOISIR SI ON FAIT UN TABLEAU DE TABLEAU OU SI ON CREER NOTRE PROPRE STRUCTURE
+                        // IL FAUT CHOISIR SI ON FAIT UN TABLEAU DE TABLEAU OU SI ON CREER NOTRE PROPRE STRUCTURE. Structure ??
                     }
                 }
             }
