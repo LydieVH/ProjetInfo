@@ -9,25 +9,31 @@ namespace ProjetInfo_GuidePrenoms
 {
     class Program
     {
+        struct entite
+        {
+            public int annee;
+            public string prenom;
+            public int nbDeFoisDonne;
+            public int rang;
+        }
+        // Chargement du fichier 
+        public static void copieFichierDansTableau (string fichierSource)
+        {
+            string[] lignes = System.IO.File.ReadAllLines(fichierSource);
+            entite[] entites = new entite[lignes.Length-1];  // -1 car on prend pas la première ligne du fichier 
+            for (int i = 1; i < lignes.Length; i++)
+            {
+                string[] ligneDecoupee = lignes[i].Split();
+                entites[i-1].annee = int.Parse(ligneDecoupee[0]);   // i-1 car on n'a pas pris la première ligne du fichier..
+                entites[i-1].prenom = ligneDecoupee[1];             // .. et sinon on dépassera de notre tableau
+                entites[i-1].nbDeFoisDonne = int.Parse(ligneDecoupee[2]);
+                entites[i-1].rang = int.Parse(ligneDecoupee[3]);
+            }
+        }
+
         static void Main(string[] args)
         {
-            // Chargement du fichier 
-            public static void copieFichierDansTableau (string fichierSource)
-            {
-                try 
-                {
-                    // Création d'une instance StreamReader pour notre fichier
-                    System.Text.Encoding   encoding = System.Text.Encoding.GetEncoding(  "iso-8859-1"  );
-                    StreamReader monStreamReader = new StreamReader(fichierSource,encoding); 
-                    string ligne = monStreamReader.ReadLine();
 
-                    // Copie du fichier texte dans un tableau 
-                    while (ligne != null)
-                    {
-                        // IL FAUT CHOISIR SI ON FAIT UN TABLEAU DE TABLEAU OU SI ON CREER NOTRE PROPRE STRUCTURE
-                    }
-                }
-            }
         }
     }
 }
