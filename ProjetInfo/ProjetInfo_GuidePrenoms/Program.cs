@@ -33,7 +33,9 @@ namespace ProjetInfo_GuidePrenoms
 
         static void Main(string[] args)
         {
-
+            copieFichierDansTableau(@"C:\Users\LVH2\Documents\ENSC\PROG\PROJET");
+            Console.WriteLine("{0}",entites[88].prenom); // comment faire pour récuperer le tableau entites ? 
+            Console.ReadLine();
         }
     }
 }
