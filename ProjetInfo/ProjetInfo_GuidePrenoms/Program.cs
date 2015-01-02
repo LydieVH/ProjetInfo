@@ -44,7 +44,7 @@ namespace ProjetInfo_GuidePrenoms
         static void Main(string[] args)
         {
             copieFichierDansTableau(@"C:\Users\LVH2\Documents\ENSC\PROG\PROJET");
-            afficheFichier; // comment faire pour récuperer le tableau entites ? 
+            afficheFichier(entites[88]); // <-- on peut pas recup le tableau crée dans la fct° copieFichierDansTableau, il a été effacé dans la pile à la fin de la fonction non ? 
             Console.ReadLine();
         }
     }
