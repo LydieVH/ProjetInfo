@@ -31,10 +31,20 @@ namespace ProjetInfo_GuidePrenoms
             }
         }
 
+        public static void afficheFichier(entite[] entites)
+        {
+            int longueur = entites.Length, i = 0;
+            while (i < longueur)
+            {
+                Console.WriteLine("{0}\t{1}\t{2}\t{3}", entites[i].annee, entites[i].prenom, entites[i].nbDeFoisDonne, entites[i].rang);
+                i++;
+            }
+        }
+
         static void Main(string[] args)
         {
             copieFichierDansTableau(@"C:\Users\LVH2\Documents\ENSC\PROG\PROJET");
-            Console.WriteLine("{0}",entites[88].prenom); // comment faire pour récuperer le tableau entites ? 
+            afficheFichier; // comment faire pour récuperer le tableau entites ? 
             Console.ReadLine();
         }
     }
