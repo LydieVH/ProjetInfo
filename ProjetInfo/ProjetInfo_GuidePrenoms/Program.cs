@@ -32,7 +32,7 @@ namespace ProjetInfo_GuidePrenoms
                     entites[i-1].rang = int.Parse(ligneDecoupee[3]);
                 }
             }
-            catch
+            catch // Gestion des cas où le fichier ne serait pas au bon emplacement ou au mauvais nom
             {
                 Console.WriteLine("/!\\ Veuillez vérifier que le fichier \"prenoms_bordeaux.txt\" soit dans le même dossier que le fichier .exe de l'application.\nTaper \"ok\" lorsque l'opération est effectuée.");
                 while (string.Equals(Console.ReadLine().ToUpper(), "OK") == false)
@@ -41,6 +41,7 @@ namespace ProjetInfo_GuidePrenoms
             }
         }
 
+        // Affichage du tableau pour vérification du chargement du fichier 
         public static void afficheFichier(entite[] entites) 
         {
             int longueur = entites.Length, i = 0;
@@ -59,12 +60,76 @@ namespace ProjetInfo_GuidePrenoms
             }
         } 
 
+        // Affichage du MENU
+        public static void menu()
+        {
+            Console.WriteLine("+-----------------------------------------------------------------------------+");
+            Console.WriteLine("|                                     MENU                                    |");
+            Console.WriteLine("+-----------+-----------------------------------------------------------------+");
+            Console.WriteLine("| Requête 1 | Donne le nombre de naissances et le rang sur 100 d'un prénom    |");
+            Console.WriteLine("|           | quelconque sur une année donnée.                                |");
+            Console.WriteLine("|  TAPEZ 1  |                                                                 |");
+            Console.WriteLine("+-----------+-----------------------------------------------------------------+");
+            Console.WriteLine("| Requête 2 | Donne le top 10 des prénoms sur une période donnée.             |");
+            Console.WriteLine("|           |                                                                 |");
+            Console.WriteLine("|  TAPEZ 2  |                                                                 |");
+            Console.WriteLine("+-----------+-----------------------------------------------------------------+");
+            Console.WriteLine("| Requête 3 | Donne le nombre de naissances et le rang d'un prénom quelconque |");
+            Console.WriteLine("|           | sur une période donnée.                                         |");
+            Console.WriteLine("|  TAPEZ 3  |                                                                 |");
+            Console.WriteLine("+-----------+-----------------------------------------------------------------+");
+            Console.WriteLine("| Requête 4 | Donne la tendance d'un prénom quelconque sur les N dernières    |");
+            Console.WriteLine("|           | années.                                                         |");
+            Console.WriteLine("|  TAPEZ 4  |                                                                 |");
+            Console.WriteLine("+-----------+-----------------------------------------------------------------+");
+            Console.WriteLine("| Requête 5 | Donne la liste complète d'une année donnée.                     |");
+            Console.WriteLine("|           |                                                                 |");
+            Console.WriteLine("|  TAPEZ 5  |                                                                 |");
+            Console.WriteLine("+-----------+-----------------------------------------------------------------+");
+            Console.WriteLine("|  Tapez 0  | Quitter                                                         |");
+            Console.WriteLine("+-----------+-----------------------------------------------------------------+");
+        }
+
+        // Choix de la requête
+        public static void programme()
+        {
+            menu();
+            int select = int.Parse(Console.ReadLine());
+            switch (select)
+            {
+                case 1 :
+                    requeteA();
+                    break;
+                case 2 :
+                    //requeteB();
+                    break;
+                case 3 :
+                    // requeteC;
+                    break;
+                case 4 : 
+                    // requeteD;
+                    break;
+                case 5 : 
+                    // requeteE;
+                    break;
+            }
+        }
+
+        // Nombre de naissance et Rang sur 100 d'un prénom sur une année
+        public static void requeteA ()
+        {
+            
+            Console.WriteLine("Sur quel prénom voulez-vous être renseigné ?");
+            string prenomChoisi = Console.ReadLine(); // attention à la gestion des erreurs (nb caractère)
+
+        }
 
         static void Main(string[] args)
         {
             entite[] entites;
             copieFichierDansTableau(out entites);
-            afficheFichier(entites);
+            //afficheFichier(entites);
+            
  
             Console.ReadLine();
         }
