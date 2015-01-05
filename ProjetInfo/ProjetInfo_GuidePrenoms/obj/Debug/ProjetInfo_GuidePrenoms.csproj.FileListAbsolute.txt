@@ -2,3 +2,7 @@ C:\Users\LVH2\Documents\GitHub\ProjetInfo\ProjetInfo\ProjetInfo_GuidePrenoms\bin
 C:\Users\LVH2\Documents\GitHub\ProjetInfo\ProjetInfo\ProjetInfo_GuidePrenoms\obj\Debug\ProjetInfo_GuidePrenoms.csprojResolveAssemblyReference.cache
 C:\Users\Alexis DENY\Documents\GitHub\ProjetInfo\ProjetInfo\ProjetInfo_GuidePrenoms\bin\Debug\ProjetInfo_GuidePrenoms.exe.config
 C:\Users\Alexis DENY\Documents\GitHub\ProjetInfo\ProjetInfo\ProjetInfo_GuidePrenoms\obj\Debug\ProjetInfo_GuidePrenoms.csprojResolveAssemblyReference.cache
+C:\Users\LVH2\Documents\GitHub\ProjetInfo\ProjetInfo\ProjetInfo_GuidePrenoms\bin\Debug\ProjetInfo_GuidePrenoms.exe
+C:\Users\LVH2\Documents\GitHub\ProjetInfo\ProjetInfo\ProjetInfo_GuidePrenoms\bin\Debug\ProjetInfo_GuidePrenoms.pdb
+C:\Users\LVH2\Documents\GitHub\ProjetInfo\ProjetInfo\ProjetInfo_GuidePrenoms\obj\Debug\ProjetInfo_GuidePrenoms.exe
+C:\Users\LVH2\Documents\GitHub\ProjetInfo\ProjetInfo\ProjetInfo_GuidePrenoms\obj\Debug\ProjetInfo_GuidePrenoms.pdb
