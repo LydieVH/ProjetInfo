@@ -91,46 +91,70 @@ namespace ProjetInfo_GuidePrenoms
         }
 
         // Choix de la requête
-        public static void programme()
+        public static void programme(entite[] entites)
         {
             menu();
             int select = int.Parse(Console.ReadLine());
             switch (select)
             {
+                case 0 :
+                    Console.WriteLine("Au revoir");
+                    break;
                 case 1 :
-                    requeteA();
+                    requeteA(entites);
+                    programme(entites);
                     break;
                 case 2 :
                     //requeteB();
+                    programme(entites);
                     break;
                 case 3 :
                     // requeteC;
+                    programme(entites);
                     break;
-                case 4 : 
+                case 4 :
                     // requeteD;
+                    programme(entites);
                     break;
                 case 5 : 
                     // requeteE;
+                    programme(entites);
                     break;
             }
         }
+        public static string choisirPrenom () //(entite[] entites)
+        {
+            Console.WriteLine("Sur quel prénom voulez-vous être renseigné ?");
+            string prenomChoisi = Console.ReadLine().ToUpperInvariant();
+            return prenomChoisi;
+        }
 
         // Nombre de naissance et Rang sur 100 d'un prénom sur une année
-        public static void requeteA ()
+        public static void requeteA (entite[] entites) // NE FONCTIONNE PAS POUR LES PRENOMS NE FIGURANT PAS DANS LA LISTE i > tab.Lenght
         {
-            
-            Console.WriteLine("Sur quel prénom voulez-vous être renseigné ?");
-            string prenomChoisi = Console.ReadLine(); // attention à la gestion des erreurs (nb caractère)
-
+            string prenomChoisi = choisirPrenom();
+            Console.WriteLine("Sur quelle année souhaitez-vous être renseigné ?");
+            int anneeChoisie = int.Parse(Console.ReadLine());
+            int i = 0;
+            while (((entites[i].annee != anneeChoisie) || (String.Equals(prenomChoisi, entites[i].prenom) == false)) && i <= entites.Length )
+            {
+                i++;
+            }
+            if (i <= entites.Length)
+                Console.WriteLine("En {0}, {1} {2} ont vu le jour. C'est donc c'est le {3}ème prénom le plus donné à Bordeaux", entites[i].annee, entites[i].nbDeFoisDonne, entites[i].prenom, entites[i].rang);
+            else
+                Console.WriteLine("Prenom non répertorié pour cette année.");
         }
+
+
 
         static void Main(string[] args)
         {
             entite[] entites;
             copieFichierDansTableau(out entites);
-            //afficheFichier(entites);
-            
- 
+            //afficheFichier(entites)
+            programme(entites);
+
             Console.ReadLine();
         }
     }
