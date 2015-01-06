@@ -128,20 +128,44 @@ namespace ProjetInfo_GuidePrenoms
             string prenomChoisi = Console.ReadLine().ToUpperInvariant();
             return prenomChoisi;
         }
+        public static int saisirAnnee(entite[] entites)
+        {
+            try
+            {
+                int annee = int.Parse(Console.ReadLine());
+                while (annee > entites[0].annee || annee < entites[entites.Length - 1].annee)
+                {
+                    Console.WriteLine("Veuillez renseigner une année entre {0} et {1] s'il vous plaît", entites[entites.Length - 1].annee, entites[0].annee);
+                }
+                return annee;
+            }
+            catch
+            {
+                Console.WriteLine("Veuillez renseigner une année entre {0} et {1} s'il vous plaît", entites[entites.Length - 1].annee, entites[0].annee);
+                int annee  = saisirAnnee(entites);
+                return annee;
+            }
+        }
 
         // Nombre de naissance et Rang sur 100 d'un prénom sur une année
-        public static void requeteA (entite[] entites) // NE FONCTIONNE PAS POUR LES PRENOMS NE FIGURANT PAS DANS LA LISTE i > tab.Lenght
+        public static void requeteA (entite[] entites) // FONCTIONNE POUR N'IMPORTE QUELLE DEMANDE
         {
             string prenomChoisi = choisirPrenom();
             Console.WriteLine("Sur quelle année souhaitez-vous être renseigné ?");
-            int anneeChoisie = int.Parse(Console.ReadLine());
-            int i = 0;
-            while (((entites[i].annee != anneeChoisie) || (String.Equals(prenomChoisi, entites[i].prenom) == false)) && i <= entites.Length )
+            int anneeChoisie = saisirAnnee(entites);
+            int i = (2013 - anneeChoisie)*100;
+            while ((i < (2013 - anneeChoisie) * 100 + 100) && (String.Equals(prenomChoisi, entites[i].prenom) == false))
             {
                 i++;
             }
-            if (i <= entites.Length)
-                Console.WriteLine("En {0}, {1} {2} ont vu le jour. C'est donc c'est le {3}ème prénom le plus donné à Bordeaux", entites[i].annee, entites[i].nbDeFoisDonne, entites[i].prenom, entites[i].rang);
+            if (i < (2013 - anneeChoisie) * 100 + 100)
+            {
+                if (entites[i].rang == 1)
+                    Console.WriteLine("En {0}, {1} {2} ont vu le jour. C'est aussi le prénom le plus donné à Bordeaux cette année là", entites[i].annee, entites[i].nbDeFoisDonne, entites[i].prenom, entites[i].rang);
+                else
+                    Console.WriteLine("En {0}, {1} {2} ont vllu le jour. C'est aussi le {3}ème prénom le plus donné à Bordeaux cette année là", entites[i].annee, entites[i].nbDeFoisDonne, entites[i].prenom, entites[i].rang);
+
+            }
             else
                 Console.WriteLine("Prenom non répertorié pour cette année.");
         }
