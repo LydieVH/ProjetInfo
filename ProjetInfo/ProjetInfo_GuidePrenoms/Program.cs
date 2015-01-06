@@ -156,12 +156,12 @@ namespace ProjetInfo_GuidePrenoms
             string prenomChoisi = choisirPrenom();
             Console.WriteLine("Sur quelle année souhaitez-vous être renseigné ?"); // pourquoi pas le mettre dans saisir année ?  ca fait tache la
             int anneeChoisie = saisirAnnee(entites);
-            int i = (2013 - anneeChoisie)*100;
-            while ((i < (2013 - anneeChoisie) * 100 + 100) && (String.Equals(prenomChoisi, entites[i].prenom) == false))
+            int i = (entites[0].annee - anneeChoisie) * 100;
+            while ((i < (entites[0].annee - anneeChoisie) * 100 + 100) && (String.Equals(prenomChoisi, entites[i].prenom) == false))
             {
                 i++;
             }
-            if (i < (2013 - anneeChoisie) * 100 + 100)
+            if (i < (entites[0].annee - anneeChoisie) * 100 + 100)
             {
                 if (entites[i].rang == 1)
                     Console.WriteLine("En {0}, {1} {2} ont vu le jour. C'est le prénom le plus donné à Bordeaux cette année là", entites[i].annee, entites[i].nbDeFoisDonne, entites[i].prenom, entites[i].rang);
