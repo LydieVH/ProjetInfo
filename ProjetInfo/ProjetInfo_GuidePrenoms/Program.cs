@@ -19,6 +19,7 @@ namespace ProjetInfo_GuidePrenoms
         // Chargement du fichier 
         public static void copieFichierDansTableau (out entite[] entites)
         {
+            Console.WriteLine("Chargement du fichier, veuillez patientez...");
             try
             {
                 string[] lignes = System.IO.File.ReadAllLines("prenoms_bordeaux.txt");
@@ -39,6 +40,7 @@ namespace ProjetInfo_GuidePrenoms
                     Console.WriteLine("/!\\ Veuillez vérifier que le fichier \"prenoms_bordeaux.txt\" soit dans le même dossier que le fichier .exe de l'application.\nTaper \"ok\" lorsque l'opération est effectuée.");
                 copieFichierDansTableau(out entites);
             }
+            Console.WriteLine("Fichier chargé avec succès !");
         }
 
         // Affichage du tableau pour vérification du chargement du fichier 
@@ -59,10 +61,11 @@ namespace ProjetInfo_GuidePrenoms
                 }
             }
         } 
-
         // Affichage du MENU
         public static void menu()
         {
+            Console.Write("Appuyez sur sur la touche entrée pour accéder au menu.");
+            Console.ReadLine();
             Console.WriteLine("+-----------------------------------------------------------------------------+");
             Console.WriteLine("|                                     MENU                                    |");
             Console.WriteLine("+-----------+-----------------------------------------------------------------+");
@@ -163,7 +166,7 @@ namespace ProjetInfo_GuidePrenoms
                 if (entites[i].rang == 1)
                     Console.WriteLine("En {0}, {1} {2} ont vu le jour. C'est aussi le prénom le plus donné à Bordeaux cette année là", entites[i].annee, entites[i].nbDeFoisDonne, entites[i].prenom, entites[i].rang);
                 else
-                    Console.WriteLine("En {0}, {1} {2} ont vllu le jour. C'est aussi le {3}ème prénom le plus donné à Bordeaux cette année là", entites[i].annee, entites[i].nbDeFoisDonne, entites[i].prenom, entites[i].rang);
+                    Console.WriteLine("En {0}, {1} {2} ont vu le jour. C'est aussi le {3}ème prénom le plus donné à Bordeaux cette année là", entites[i].annee, entites[i].nbDeFoisDonne, entites[i].prenom, entites[i].rang);
 
             }
             else
