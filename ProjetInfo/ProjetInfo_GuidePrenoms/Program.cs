@@ -166,12 +166,7 @@ namespace ProjetInfo_GuidePrenoms
                 if (entites[i].rang == 1)
                     Console.WriteLine("En {0}, {1} {2} ont vu le jour. C'est le prénom le plus donné à Bordeaux cette année là", entites[i].annee, entites[i].nbDeFoisDonne, entites[i].prenom, entites[i].rang);
                 else
-<<<<<<< HEAD
                     Console.WriteLine("En {0}, {1} {2} ont vu le jour. C'est le {3}ème prénom le plus donné à Bordeaux cette année là", entites[i].annee, entites[i].nbDeFoisDonne, entites[i].prenom, entites[i].rang);
-=======
-                    Console.WriteLine("En {0}, {1} {2} ont vu le jour. C'est aussi le {3}ème prénom le plus donné à Bordeaux cette année là", entites[i].annee, entites[i].nbDeFoisDonne, entites[i].prenom, entites[i].rang);
->>>>>>> origin/master
-
             }
             else
                 Console.WriteLine("Prenom non répertorié pour cette année.");
