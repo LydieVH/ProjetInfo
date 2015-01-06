@@ -135,7 +135,7 @@ namespace ProjetInfo_GuidePrenoms
                 int annee = int.Parse(Console.ReadLine());
                 while (annee > entites[0].annee || annee < entites[entites.Length - 1].annee)
                 {
-                    Console.WriteLine("Veuillez renseigner une année entre {0} et {1] s'il vous plaît", entites[entites.Length - 1].annee, entites[0].annee);
+                    Console.WriteLine("Veuillez renseigner une année entre {0} et {1} s'il vous plaît", entites[entites.Length - 1].annee, entites[0].annee);
                 }
                 return annee;
             }
@@ -151,7 +151,7 @@ namespace ProjetInfo_GuidePrenoms
         public static void requeteA (entite[] entites) // FONCTIONNE POUR N'IMPORTE QUELLE DEMANDE
         {
             string prenomChoisi = choisirPrenom();
-            Console.WriteLine("Sur quelle année souhaitez-vous être renseigné ?");
+            Console.WriteLine("Sur quelle année souhaitez-vous être renseigné ?"); // pourquoi pas le mettre dans saisir année ?  ca fait tache la
             int anneeChoisie = saisirAnnee(entites);
             int i = (2013 - anneeChoisie)*100;
             while ((i < (2013 - anneeChoisie) * 100 + 100) && (String.Equals(prenomChoisi, entites[i].prenom) == false))
@@ -161,9 +161,9 @@ namespace ProjetInfo_GuidePrenoms
             if (i < (2013 - anneeChoisie) * 100 + 100)
             {
                 if (entites[i].rang == 1)
-                    Console.WriteLine("En {0}, {1} {2} ont vu le jour. C'est aussi le prénom le plus donné à Bordeaux cette année là", entites[i].annee, entites[i].nbDeFoisDonne, entites[i].prenom, entites[i].rang);
+                    Console.WriteLine("En {0}, {1} {2} ont vu le jour. C'est le prénom le plus donné à Bordeaux cette année là", entites[i].annee, entites[i].nbDeFoisDonne, entites[i].prenom, entites[i].rang);
                 else
-                    Console.WriteLine("En {0}, {1} {2} ont vllu le jour. C'est aussi le {3}ème prénom le plus donné à Bordeaux cette année là", entites[i].annee, entites[i].nbDeFoisDonne, entites[i].prenom, entites[i].rang);
+                    Console.WriteLine("En {0}, {1} {2} ont vu le jour. C'est le {3}ème prénom le plus donné à Bordeaux cette année là", entites[i].annee, entites[i].nbDeFoisDonne, entites[i].prenom, entites[i].rang);
 
             }
             else
