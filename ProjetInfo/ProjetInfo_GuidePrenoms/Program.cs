@@ -46,18 +46,17 @@ namespace ProjetInfo_GuidePrenoms
         // Affichage du tableau pour vérification du chargement du fichier 
         public static void afficheFichier(entite[] entites) 
         {
-            Console.WriteLine("Rang\tPrénom\t\tNombre");
             int longueur = entites.Length, i = 0;
             while (i < longueur)    // Gestion de l'alignement des colonnes
             {
                 if (entites[i].prenom.Length > 7) 
                 {
-                    Console.WriteLine("{0}\t{1}\t{2}", entites[i].rang, entites[i].prenom, entites[i].nbDeFoisDonne);
+                    Console.WriteLine("{0}\t{1}\t{2}\t{3}", entites[i].annee, entites[i].prenom, entites[i].nbDeFoisDonne, entites[i].rang);
                     i++;
                 }
                 else
                 {
-                    Console.WriteLine("{0}\t{1}\t\t{2}", entites[i].rang, entites[i].prenom, entites[i].nbDeFoisDonne);
+                    Console.WriteLine("{0}\t{1}\t\t{2}\t{3}", entites[i].annee, entites[i].prenom, entites[i].nbDeFoisDonne, entites[i].rang);
                     i++;
                 }
             }
@@ -117,7 +116,6 @@ namespace ProjetInfo_GuidePrenoms
                     break;
                 case 2 :
                     //requeteB();
-                    requêteB(entites);
                     programme(entites);
                     break;
                 case 3 :
@@ -148,7 +146,6 @@ namespace ProjetInfo_GuidePrenoms
                 while (annee > entites[0].annee || annee < entites[entites.Length - 1].annee)
                 {
                     Console.WriteLine("Veuillez renseigner une année entre {0} et {1} s'il vous plaît", entites[entites.Length - 1].annee, entites[0].annee);
-                    annee = int.Parse(Console.ReadLine());
                 }
                 return annee;
             }
@@ -177,7 +174,7 @@ namespace ProjetInfo_GuidePrenoms
         public static entite[] classementPrenomsPeriode(entite[] entites, int annee1, int annee2) // pas finie !
         {
             // On détermine d'abord combien il y a de prénoms différents dans les top 100 de la période donnée (=k)
-            int h = 1, i = 0, j = (entites[0].annee - annee2) * 100, n = (1 + annee2 - annee1) * 100, k = n;
+            int h = 1, i = 0, j = (entites[0].annee - annee2) * 100, n = (annee2 - annee1) * 100, k = n;
             while (i < n)
             {
                 while (h < n - i)
@@ -196,102 +193,26 @@ namespace ProjetInfo_GuidePrenoms
             entite[] entites2 = new entite[k];
             // On rentre les prénoms non-triés avec leurs totaux
             i = 0;
-            h = j;
+            k = j;
             int rang;
-            while (h < j + n)
+            while (k < j + n)
             {
-                if ((h > j + 99) && estDejaSaisi(entites2, i, entites[h].prenom, out rang) == true)
+                if (k > j && estDejaSaisi(entites2, k - j, entites[k].prenom, out rang) == true)
                 {
-                    entites2[rang].nbDeFoisDonne += entites[h].nbDeFoisDonne;
-                    h++;
+                    entites2[rang].nbDeFoisDonne += entites[k].nbDeFoisDonne;
+                    k++;
                     continue;
                 }
-                entites2[i] = entites[h];
+                entites2[i] = entites[k];
                 i++;
-                h++;
+                k++;
             }
             // On trie le tableau afin d'obtenir le classement
-            entites2 = triFusion(entites2, k);
-            i = 0;
-            while (i < k)
-            {
-                entites2[i].rang = i + 1;
-                i++;
-            }
-            return entites2;
-        }
-
-        public static entite[] triFusion(entite[] entites, int longueurListe)
-        {
-            entite[] listeFinale = new entite[longueurListe];
-            if (longueurListe == 1)
-            {
-                listeFinale[0] = entites[0];
-                return listeFinale;
-            }
-            int m = longueurListe / 2, i = 0;
-            entite[] liste1 = new entite[m], liste2 = new entite[longueurListe - m];
-            while (i < m)
-            {
-                liste1[i] = entites[i];
-                i++;
-            }
-            i = 0;
-            while (i < longueurListe - m)
-            {
-                liste2[i] = entites[i + m];
-                i++;
-            }
-            liste1 = triFusion(liste1, liste1.Length);
-            liste2 = triFusion(liste2, liste2.Length);
-            listeFinale = fusionne(liste1, liste2);
-            return listeFinale;
-        }
-        public static entite[] fusionne(entite[] entites1, entite[] entites2)
-        {
-            int longueurliste1 = entites1.Length, longueurliste2 = entites2.Length;
-            entite[] listeTri = new entite[longueurliste1 + longueurliste2];
-            int a=0, b=0, i=0;
-            while (a < longueurliste1 && b < longueurliste2)
-            {
-                if (entites1[a].nbDeFoisDonne > entites2[b].nbDeFoisDonne)
-                {
-                    listeTri[i] = entites1[a];
-                    a++;
-                    i++;
-                }
-                else
-                {
-                    listeTri[i] = entites2[b];
-                    b++;
-                    i++;
-                }
-            }
-            while (a < longueurliste1)
-            {
-                listeTri[i] = entites1[a];
-                a++;
-                i++;
-            }
-            while (b < longueurliste2)
-            {
-                listeTri[i] = entites2[b];
-                b++;
-                i++;
-            }
-            return listeTri;
         }
         public static entite[] topDix(entite[] entites, int annee1, int annee2)
         {
             entite[] classement = classementPrenomsPeriode(entites, annee1, annee2);
-            entite[] topDix = new entite[10];
-            int i = 0;
-            while (i < 10)
-            {
-                topDix[i] = classement[i];
-                i++;
-            }
-            return topDix;
+            return classement;
         }
         public static bool estDejaSaisi(entite[] entites, int rangMaxEntites, string prenom, out int rangMemePrenom)
         {
@@ -332,7 +253,7 @@ namespace ProjetInfo_GuidePrenoms
             int annee1, annee2;
             saisirPeriode(entites, out annee1, out annee2);
             entite[] classementTopDix = topDix(entites, annee1, annee2);
-            afficheFichier(classementTopDix);
+
         }
 
 
