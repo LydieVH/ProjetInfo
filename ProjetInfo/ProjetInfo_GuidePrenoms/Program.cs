@@ -132,10 +132,10 @@ namespace ProjetInfo_GuidePrenoms
                     break;
             }
         }
-        public static string choisirPrenom () //(entite[] entites)
+        public static string saisirPrenom () //(entite[] entites)
         {
             Console.WriteLine("Sur quel prénom voulez-vous être renseigné ?");
-            string prenomChoisi = Console.ReadLine().ToUpperInvariant();
+            string prenomChoisi = Console.ReadLine().ToUpperInvariant(); // Mise en majuscules du prénom pour correspondre à la liste du fichier
             return prenomChoisi;
         }
         public static int saisirAnnee(entite[] entites)
@@ -160,7 +160,7 @@ namespace ProjetInfo_GuidePrenoms
         // Nombre de naissance et Rang sur 100 d'un prénom sur une année
         public static void requeteA (entite[] entites) // FONCTIONNE POUR N'IMPORTE QUELLE DEMANDE
         {
-            string prenomChoisi = choisirPrenom();
+            string prenomChoisi = saisirPrenom();
             Console.WriteLine("Sur quelle année souhaitez-vous être renseigné ?"); // pourquoi pas le mettre dans saisir année ?  ca fait tache la
             int anneeChoisie = saisirAnnee(entites);
             int i = (entites[0].annee - anneeChoisie) * 100;
