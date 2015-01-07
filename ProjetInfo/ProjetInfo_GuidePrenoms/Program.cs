@@ -97,7 +97,14 @@ namespace ProjetInfo_GuidePrenoms
         public static void programme(entite[] entites)
         {
             menu();
-            int select = int.Parse(Console.ReadLine());
+            string commande;
+            do
+            {
+                Console.WriteLine("Entrez le numéro de la requête souhaitée s'il vous plait.");
+                commande = Console.ReadLine();
+            }
+            while (commande != "0" && commande != "1" && commande != "2" && commande != "3" && commande != "4" && commande != "5"); // Gestion des erreurs de frappe éventuelles
+            int select = int.Parse(commande);
             switch (select)
             {
                 case 0 :
@@ -181,6 +188,7 @@ namespace ProjetInfo_GuidePrenoms
             //afficheFichier(entites)
             programme(entites);
 
+            Console.WriteLine("Appuyez sur une toucher pour quitter.");
             Console.ReadLine();
         }
     }
