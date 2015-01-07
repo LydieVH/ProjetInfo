@@ -16,6 +16,7 @@ namespace ProjetInfo_GuidePrenoms
             public int nbDeFoisDonne;
             public int rang;
         }
+
         // Chargement du fichier 
         public static void copieFichierDansTableau (out entite[] entites)
         {
@@ -61,6 +62,7 @@ namespace ProjetInfo_GuidePrenoms
                 }
             }
         } 
+
         // Affichage du MENU
         public static void menu()
         {
