@@ -42,7 +42,6 @@ namespace ProjetInfo_GuidePrenoms
             }
             Console.WriteLine("Fichier chargé avec succès !");
         }
-
         // Affichage du tableau pour vérification du chargement du fichier 
         public static void afficheFichier(entite[] entites) 
         {
@@ -93,7 +92,6 @@ namespace ProjetInfo_GuidePrenoms
             Console.WriteLine("|  Tapez 0  | Quitter                                                         |");
             Console.WriteLine("+-----------+-----------------------------------------------------------------+");
         }
-
         // Choix de la requête
         public static void programme(entite[] entites)
         {
@@ -173,7 +171,6 @@ namespace ProjetInfo_GuidePrenoms
                 annee2 = tmp;
             }
         }
-
         public static entite[] classementPrenomsPeriode(entite[] entites, int annee1, int annee2) // pas finie !
         {
             // On détermine d'abord combien il y a de prénoms différents dans les top 100 de la période donnée (=k)
@@ -220,7 +217,6 @@ namespace ProjetInfo_GuidePrenoms
             }
             return entites2;
         }
-
         public static entite[] triFusion(entite[] entites, int longueurListe)
         {
             entite[] listeFinale = new entite[longueurListe];
@@ -304,7 +300,6 @@ namespace ProjetInfo_GuidePrenoms
             }
             return false;
         }
-
         // Nombre de naissance et Rang sur 100 d'un prénom sur une année
         public static void requeteA (entite[] entites) // FONCTIONNE POUR N'IMPORTE QUELLE DEMANDE
         {
@@ -326,7 +321,6 @@ namespace ProjetInfo_GuidePrenoms
             else
                 Console.WriteLine("Prenom non répertorié pour cette année.");
         }
-
         public static void requêteB(entite[] entites)
         {
             int annee1, annee2;
@@ -334,7 +328,6 @@ namespace ProjetInfo_GuidePrenoms
             entite[] classementTopDix = topDix(entites, annee1, annee2);
             afficheFichier(classementTopDix);
         }
-
 
         static void Main(string[] args)
         {
