@@ -115,12 +115,11 @@ namespace ProjetInfo_GuidePrenoms
                     programme(entites);
                     break;
                 case 2 :
-                    //requeteB();
-                    requêteB(entites);                    
+                    requeteB(entites);                    
                     programme(entites);
                     break;
                 case 3 :
-                    // requeteC;
+                    requeteC(entites);
                     programme(entites);
                     break;
                 case 4 :
@@ -172,7 +171,7 @@ namespace ProjetInfo_GuidePrenoms
                 annee2 = tmp;
             }
         }
-        public static entite[] classementPrenomsPeriode(entite[] entites, int annee1, int annee2) // pas finie !
+        public static entite[] classementPrenomsPeriode(entite[] entites, int annee1, int annee2) 
         {
             // On détermine d'abord combien il y a de prénoms différents dans les top 100 de la période donnée (=k)
             int h = 1, i = 0, j = (entites[0].annee - annee2) * 100, n = (1 + annee2 - annee1) * 100, k = n;
@@ -322,14 +321,35 @@ namespace ProjetInfo_GuidePrenoms
             else
                 Console.WriteLine("Prenom non répertorié pour cette année.");
         }
-        public static void requêteB(entite[] entites)
+        public static void requeteB(entite[] entites)
         {
             int annee1, annee2;
             saisirPeriode(entites, out annee1, out annee2);
             entite[] classementTopDix = topDix(entites, annee1, annee2);
             afficheFichier(classementTopDix);
         }
-        public static void requeteD (entite[] entites)
+        public static void requeteC (entite[] entites)
+        {
+            string prenom = saisirPrenom();
+            int annee1, annee2, i = 0;
+            saisirPeriode(entites, out annee1, out annee2);
+            entite[] classement = classementPrenomsPeriode(entites, annee1, annee2);
+            bool d = false;
+            while (i < classement.Length && d == false)
+            {
+                if (String.Equals(prenom, classement[i].prenom) == true)
+                {
+                    d = true;
+                    Console.WriteLine("Entre {0} et {1}, {2} {3} ont vu le jour. C'est le {4} prénom le plus donné sur {5} au total durant cette période.", annee1, annee2, classement[i].nbDeFoisDonne, classement[i].prenom, classement[i].rang, classement.Length);
+                    break;
+                }
+                i++;
+            }
+            if (d == false)
+                Console.WriteLine("Ce prénom n'est pas répertorié durant cette période.");
+
+        }
+       /* public static void requeteD (entite[] entites)
         {
             string prenom = saisirPrenom();
             int annee1, annee2;
@@ -340,7 +360,7 @@ namespace ProjetInfo_GuidePrenoms
 
             // test qualificatif + affichage reponse  
         }
-
+        
         // Affiche des 100 prenoms d'une année choisie
         public static void requeteE (entite[] entites )
         {
@@ -357,7 +377,7 @@ namespace ProjetInfo_GuidePrenoms
         public static int esperance (entite[] entites, string prenom)
         {
 
-        }
+        }*/
         static void Main(string[] args)
         {
             entite[] entites;
