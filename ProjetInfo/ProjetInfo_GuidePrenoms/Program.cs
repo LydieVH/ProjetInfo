@@ -123,7 +123,7 @@ namespace ProjetInfo_GuidePrenoms
                     programme(entites);
                     break;
                 case 4 :
-                    // requeteD;
+                    requeteD(entites);
                     programme(entites);
                     break;
                 case 5 : 
@@ -349,35 +349,85 @@ namespace ProjetInfo_GuidePrenoms
                 Console.WriteLine("Ce prénom n'est pas répertorié durant cette période.");
 
         }
-       /* public static void requeteD (entite[] entites)
+        public static void requeteD (entite[] entites) // ne marche pas quand le prenom n'apparait dans la liste que tard (yoann - de 5 ans ) tabPrenom a moins de 5 lignes ?
         {
             string prenom = saisirPrenom();
-            int annee1, annee2;
-            saisirPeriode(entites, out annee1, out annee2);
-            double m2 = moyenne(entites, annee1, annee2, prenom), m1 = moyenne(entites, entites[entites.Length - 1].annee, annee1 - 1, prenom);
-            // ecart-type 
-
-
-            // test qualificatif + affichage reponse  
+            entite[] tabPrenomConcerne = tabPrenomUnique(entites, prenom);
+            Console.WriteLine("Sur combien d'années voulez-vous connaitre la tendance du prénom {0} ?", prenom);
+            int N = int.Parse(Console.ReadLine()); // GESTION DES ENTREES INCORECTES A FAIRE !!
+            int annee = tabPrenomConcerne[N].annee;
+            double m2 = moyenne(tabPrenomConcerne, tabPrenomConcerne[0].annee, annee), m1 = moyenne(tabPrenomConcerne, annee, tabPrenomConcerne[tabPrenomConcerne.Length - 1].annee);
+            double E = ecartType(tabPrenomConcerne, annee, tabPrenomConcerne[tabPrenomConcerne.Length - 1].annee, m1);
+            double e = (m2 - m1);
+            // à améliorer
+            if (e <= -(2 * E))
+                Console.WriteLine("{0} est à l'abandon.", prenom);
+            if (e > -(2 * E) && e < -E)
+                Console.WriteLine("{0} est désuet.", prenom);
+            if (e >= -E && e <= E)
+                Console.WriteLine("{0} se maintient.", prenom);
+            if(e > E && e < (2 * E))
+                Console.WriteLine("{0} est en vogue.", prenom);
+            if (e >= (2 * E))
+                Console.WriteLine("{0} explose !", prenom);
+            else 
+                Console.WriteLine("Erreur !!");
         }
-        
-        // Affiche des 100 prenoms d'une année choisie
-        public static void requeteE (entite[] entites )
-        {
-            // a faire 
-        }
-        public static double moyenne (entite[] entites, int annee1, int annee2, string prenom)
-        {
-            // a toi de jouer
-        }
-        public static double ecartType (entite[] entites, int annee1, int annee2, string prenom)
-        {
 
-        }
-        public static int esperance (entite[] entites, string prenom)
+        public static entite[] tabPrenomUnique (entite[] entites, string prenom)
         {
+            int i = 0, k = 0, h = 0;
+            // On détermine la taille du tableau = nb de fois où le prenom a été listé 
+            while (i < entites.Length)
+            {
+                if (String.Equals(prenom, entites[i].prenom) == true)
+                    k++;
+                i++;
+            }
+            i = 0;
+            entite[] tabPrenom = new entite[k];
+            while (i < entites.Length)
+            {
+                if (String.Equals(prenom, entites[i].prenom) == true)
+                {
+                    tabPrenom[h] = entites[i];
+                    h++;
+                }
+                i++;
+            }
+            return tabPrenom;
+        }
+        public static double moyenne (entite[] tabPrenom, int anneeR, int anneeV) // anneeR (récente) anneeV (vieille)
+        {
+            int i = 0, nbDeFoisDonneTotal = 0;
+            while (i < tabPrenom.Length) 
+            {
+                if (tabPrenom[i].annee < anneeR && tabPrenom[i].annee > anneeV)
+                {
+                    nbDeFoisDonneTotal += tabPrenom[i].nbDeFoisDonne;
+                }
+                i++;
+            }
+            double moy = nbDeFoisDonneTotal / (anneeV - anneeR);
+            return moy; 
+        }
 
-        }*/
+        public static double ecartType (entite[] tabPrenom, int anneeR, int anneeV, double moy)
+        {
+            double somme = 0.0;
+            int i = 0;
+            while (i < tabPrenom.Length)
+            {
+                if (tabPrenom[i].annee < anneeR && tabPrenom[i].annee > anneeV)
+                {
+                    double delta = tabPrenom[i].nbDeFoisDonne - moy;
+                    somme += delta*delta;
+                }
+                i++;
+            }
+            return Math.Sqrt(somme / (anneeR - anneeV));
+        }
+
         static void Main(string[] args)
         {
             entite[] entites;
