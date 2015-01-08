@@ -107,7 +107,8 @@ namespace ProjetInfo_GuidePrenoms
             switch (select)
             {
                 case 0 :
-                    Console.WriteLine("Au revoir");
+                    Console.WriteLine("Au revoir !");
+                    Console.WriteLine("Appuyez sur une toucher pour quitter.");
                     break;
                 case 1 :
                     requeteA(entites);
@@ -328,15 +329,41 @@ namespace ProjetInfo_GuidePrenoms
             entite[] classementTopDix = topDix(entites, annee1, annee2);
             afficheFichier(classementTopDix);
         }
+        public static void requeteD (entite[] entites)
+        {
+            string prenom = saisirPrenom();
+            int annee1, annee2;
+            saisirPeriode(entites, out annee1, out annee2);
+            double m2 = moyenne(entites, annee1, annee2, prenom), m1 = moyenne(entites, entites[entites.Length - 1].annee, annee1 - 1, prenom);
+            // ecart-type 
 
+
+            // test qualificatif + affichage reponse  
+        }
+
+        // Affiche des 100 prenoms d'une année choisie
+        public static void requeteE (entite[] entites )
+        {
+            // a faire 
+        }
+        public static double moyenne (entite[] entites, int annee1, int annee2, string prenom)
+        {
+            // a toi de jouer
+        }
+        public static double ecartType (entite[] entites, int annee1, int annee2, string prenom)
+        {
+
+        }
+        public static int esperance (entite[] entites, string prenom)
+        {
+
+        }
         static void Main(string[] args)
         {
             entite[] entites;
             copieFichierDansTableau(out entites);
             //afficheFichier(entites)
             programme(entites);
-
-            Console.WriteLine("Appuyez sur une toucher pour quitter.");
             Console.ReadLine();
         }
     }
