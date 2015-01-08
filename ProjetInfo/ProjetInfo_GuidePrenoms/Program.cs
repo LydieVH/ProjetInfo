@@ -16,24 +16,23 @@ namespace ProjetInfo_GuidePrenoms
             public int nbDeFoisDonne;
             public int rang;
         }
-        // Chargement du fichier 
-        public static void copieFichierDansTableau (out entite[] entites)
+        public static void copieFichierDansTableau(out entite[] entites)                    // Chargement du fichier
         {
             Console.WriteLine("Chargement du fichier, veuillez patientez...");
             try
             {
                 string[] lignes = System.IO.File.ReadAllLines("prenoms_bordeaux.txt");
-                entites = new entite[lignes.Length-1];  // -1 car on prend pas la première ligne du fichier 
+                entites = new entite[lignes.Length-1];                                      // -1 car on prend pas la première ligne du fichier 
                 for (int i = 1; i < lignes.Length; i++)
                 {
                     string[] ligneDecoupee = lignes[i].Split();
-                    entites[i-1].annee = int.Parse(ligneDecoupee[0]);   // i-1 car on n'a pas pris la première ligne du fichier..
-                    entites[i-1].prenom = ligneDecoupee[1];             // .. et sinon on dépassera de notre tableau
+                    entites[i-1].annee = int.Parse(ligneDecoupee[0]);                       // i-1 car on n'a pas pris la première ligne du fichier..
+                    entites[i-1].prenom = ligneDecoupee[1];                                 // .. et sinon on dépassera de notre tableau
                     entites[i-1].nbDeFoisDonne = int.Parse(ligneDecoupee[2]);
                     entites[i-1].rang = int.Parse(ligneDecoupee[3]);
                 }
             }
-            catch // Gestion des cas où le fichier ne serait pas au bon emplacement ou au mauvais nom
+            catch                                                                           // Gestion des cas où le fichier ne serait pas au bon emplacement ou au mauvais nom
             {
                 Console.WriteLine("/!\\ Veuillez vérifier que le fichier \"prenoms_bordeaux.txt\" soit dans le même dossier que le fichier .exe de l'application.\nTaper \"ok\" lorsque l'opération est effectuée.");
                 while (string.Equals(Console.ReadLine().ToUpper(), "OK") == false)
@@ -42,12 +41,11 @@ namespace ProjetInfo_GuidePrenoms
             }
             Console.WriteLine("Fichier chargé avec succès !");
         }
-        // Affichage du tableau pour vérification du chargement du fichier 
-        public static void afficheFichier(entite[] entites) 
+        public static void afficheFichier(entite[] entites)                                 // Affichage du tableau pour vérification du chargement du fichier 
         {
             Console.WriteLine("Rang\tPrénom\t\tNombre");
             int longueur = entites.Length, i = 0;
-            while (i < longueur)    // Gestion de l'alignement des colonnes
+            while (i < longueur)                                                            // Gestion de l'alignement des colonnes
             {
                 if (entites[i].prenom.Length > 7) 
                 {
@@ -61,8 +59,7 @@ namespace ProjetInfo_GuidePrenoms
                 }
             }
         } 
-        // Affichage du MENU
-        public static void menu()
+        public static void menu()                                                           // Affichage du MENU
         {
             Console.Write("Appuyez sur sur la touche entrée pour accéder au menu.");
             Console.ReadLine();
@@ -92,8 +89,7 @@ namespace ProjetInfo_GuidePrenoms
             Console.WriteLine("|  Tapez 0  | Quitter                                                         |");
             Console.WriteLine("+-----------+-----------------------------------------------------------------+");
         }
-        // Choix de la requête
-        public static void programme(entite[] entites)
+        public static void programme(entite[] entites)                                      // Choix de la requête
         {
             menu();
             string commande;
@@ -132,10 +128,10 @@ namespace ProjetInfo_GuidePrenoms
                     break;
             }
         }
-        public static string saisirPrenom () //(entite[] entites)
+        public static string saisirPrenom ()                                                //(entite[] entites)
         {
             Console.WriteLine("Sur quel prénom voulez-vous être renseigné ?");
-            string prenomChoisi = Console.ReadLine().ToUpperInvariant(); // Mise en majuscules du prénom pour correspondre à la liste du fichier
+            string prenomChoisi = Console.ReadLine().ToUpperInvariant();                    // Mise en majuscules du prénom pour correspondre à la liste du fichier
             return prenomChoisi;
         }
         public static int saisirAnnee(entite[] entites)
@@ -171,10 +167,11 @@ namespace ProjetInfo_GuidePrenoms
                 annee2 = tmp;
             }
         }
-        public static entite[] classementPrenomsPeriode(entite[] entites, int annee1, int annee2) 
+        public static int trouveNombrePrenomsDifferents(entite[] entites, int annee1, int annee2, out int j, out int n)
         {
-            // On détermine d'abord combien il y a de prénoms différents dans les top 100 de la période donnée (=k)
-            int h = 1, i = 0, j = (entites[0].annee - annee2) * 100, n = (1 + annee2 - annee1) * 100, k = n;
+            j = (entites[0].annee - annee2) * 100;
+            n = (1 + annee2 - annee1) * 100;
+            int h = 1, i = 0, k = n;
             while (i < n)
             {
                 while (h < n - i)
@@ -189,12 +186,11 @@ namespace ProjetInfo_GuidePrenoms
                 h = 1;
                 i++;
             }
-            // On crée un nouveau tableau de la bonne taille (=k)
-            entite[] entites2 = new entite[k];
-            // On rentre les prénoms non-triés avec leurs totaux
-            i = 0;
-            h = j;
-            int rang;
+            return k;
+        }
+        public static entite[] rempliClassement(entite[] entites, entite[] entites2, int j, int n)
+        {
+            int i = 0, h = j, rang;
             while (h < j + n)
             {
                 if ((h > j + 99) && estDejaSaisi(entites2, i, entites[h].prenom, out rang) == true)
@@ -207,15 +203,48 @@ namespace ProjetInfo_GuidePrenoms
                 i++;
                 h++;
             }
-            // On trie le tableau afin d'obtenir le classement
-            entites2 = triFusion(entites2, k);
-            i = 0;
+            return entites2;
+        }
+        public static entite[] reetiquetage(entite[] entites2, int k)
+        {
+            int i = 0;
             while (i < k)
             {
                 entites2[i].rang = i + 1;
                 i++;
             }
             return entites2;
+        }
+        public static entite[] classementPrenomsPeriode(entite[] entites, int annee1, int annee2) 
+        {           
+            int j, n;
+            int k = trouveNombrePrenomsDifferents(entites, annee1, annee2, out j, out n);   // On détermine d'abord combien il y a de prénoms différents dans les top 100 de la période donnée (=k)
+            entite[] entites2 = new entite[k];                                              // On crée un nouveau tableau de la bonne taille (=k)
+            entites2 = rempliClassement(entites, entites2, j, n);                           // On rentre les prénoms non-triés avec leurs totaux
+            entites2 = triFusion(entites2, k);                                              // On trie le tableau afin d'obtenir le classement
+            entites2 = reetiquetage(entites2, k);                                           // On harmonise tous les rangs
+            return entites2;
+        }
+        public static entite[] triNaif(entite[] entites, int longueurListe)
+        {
+            int i = 0, j = 1;
+            entite tmp;
+            while (i < longueurListe - 1)
+            {
+                while (j < longueurListe - i)
+                {
+                    if (entites[i].nbDeFoisDonne < entites[i + j].nbDeFoisDonne)
+                    {
+                        tmp = entites[i];
+                        entites[i] = entites[i + j];
+                        entites[i + j] = tmp;
+                    }
+                    j++;
+                }
+                j = 1;
+                i++;
+            }
+            return entites;
         }
         public static entite[] triFusion(entite[] entites, int longueurListe)
         {
@@ -300,11 +329,10 @@ namespace ProjetInfo_GuidePrenoms
             }
             return false;
         }
-        // Nombre de naissance et Rang sur 100 d'un prénom sur une année
-        public static void requeteA (entite[] entites) // FONCTIONNE POUR N'IMPORTE QUELLE DEMANDE
+        public static void requeteA(entite[] entites)                                       // Nombre de naissance et Rang sur 100 d'un prénom sur une année
         {
             string prenomChoisi = saisirPrenom();
-            Console.WriteLine("Sur quelle année souhaitez-vous être renseigné ?"); // pourquoi pas le mettre dans saisir année ?  ca fait tache la
+            Console.WriteLine("Sur quelle année souhaitez-vous être renseigné ?");          // pourquoi pas le mettre dans saisir année ?  ca fait tache la
             int anneeChoisie = saisirAnnee(entites);
             int i = (entites[0].annee - anneeChoisie) * 100;
             while ((i < (entites[0].annee - anneeChoisie) * 100 + 100) && (String.Equals(prenomChoisi, entites[i].prenom) == false))
@@ -328,7 +356,7 @@ namespace ProjetInfo_GuidePrenoms
             entite[] classementTopDix = topDix(entites, annee1, annee2);
             afficheFichier(classementTopDix);
         }
-        public static void requeteC (entite[] entites)
+        public static void requeteC(entite[] entites)
         {
             string prenom = saisirPrenom();
             int annee1, annee2, i = 0;
@@ -352,6 +380,7 @@ namespace ProjetInfo_GuidePrenoms
         public static void requeteD (entite[] entites) // ne marche pas quand le prenom n'apparait dans la liste que tard (yoann - de 5 ans ) tabPrenom a moins de 5 lignes ?
         {
             string prenom = saisirPrenom();
+<<<<<<< HEAD
             entite[] tabPrenomConcerne = tabPrenomUnique(entites, prenom);
             Console.WriteLine("Sur combien d'années voulez-vous connaitre la tendance du prénom {0} ?", prenom);
             int N = int.Parse(Console.ReadLine()); // GESTION DES ENTREES INCORECTES A FAIRE !!
@@ -396,9 +425,22 @@ namespace ProjetInfo_GuidePrenoms
                 i++;
             }
             return tabPrenom;
+=======
+            int annee1, annee2;
+            saisirPeriode(entites, out annee1, out annee2);
+            double m2 = moyenne(entites, annee1, annee2, prenom), m1 = moyenne(entites, entites[entites.Length - 1].annee, annee1 - 1, prenom);
+                                                                                            // ecart-type 
+                                                                                            // test qualificatif + affichage reponse  
+        }        
+                                                                                            // Affiche des 100 prenoms d'une année choisie
+        public static void requeteE (entite[] entites )
+        {
+                                                                                            // a faire 
+>>>>>>> origin/master
         }
         public static double moyenne (entite[] tabPrenom, int anneeR, int anneeV) // anneeR (récente) anneeV (vieille)
         {
+<<<<<<< HEAD
             int i = 0, nbDeFoisDonneTotal = 0;
             while (i < tabPrenom.Length) 
             {
@@ -428,11 +470,20 @@ namespace ProjetInfo_GuidePrenoms
             return Math.Sqrt(somme / (anneeR - anneeV));
         }
 
+=======
+                                                                                            // a toi de jouer
+        }
+        public static double ecartType (entite[] entites, int annee1, int annee2, string prenom)
+        {
+        }
+        public static int esperance (entite[] entites, string prenom)
+        {
+        }*/
+>>>>>>> origin/master
         static void Main(string[] args)
         {
             entite[] entites;
             copieFichierDansTableau(out entites);
-            //afficheFichier(entites)
             programme(entites);
             Console.ReadLine();
         }
