@@ -380,7 +380,6 @@ namespace ProjetInfo_GuidePrenoms
         public static void requeteD (entite[] entites) // ne marche pas quand le prenom n'apparait dans la liste que tard (yoann - de 5 ans ) tabPrenom a moins de 5 lignes ?
         {
             string prenom = saisirPrenom();
-<<<<<<< HEAD
             entite[] tabPrenomConcerne = tabPrenomUnique(entites, prenom);
             Console.WriteLine("Sur combien d'années voulez-vous connaitre la tendance du prénom {0} ?", prenom);
             int N = int.Parse(Console.ReadLine()); // GESTION DES ENTREES INCORECTES A FAIRE !!
@@ -402,10 +401,9 @@ namespace ProjetInfo_GuidePrenoms
             else 
                 Console.WriteLine("Erreur !!");
         }
-
         public static entite[] tabPrenomUnique (entite[] entites, string prenom)
         {
-            int i = 0, k = 0, h = 0;
+            int i = 0, k = 0, h = 0; 
             // On détermine la taille du tableau = nb de fois où le prenom a été listé 
             while (i < entites.Length)
             {
@@ -414,6 +412,7 @@ namespace ProjetInfo_GuidePrenoms
                 i++;
             }
             i = 0;
+            // On crée le tableau contenant uniquement le prenom concerné
             entite[] tabPrenom = new entite[k];
             while (i < entites.Length)
             {
@@ -424,23 +423,10 @@ namespace ProjetInfo_GuidePrenoms
                 }
                 i++;
             }
-            return tabPrenom;
-=======
-            int annee1, annee2;
-            saisirPeriode(entites, out annee1, out annee2);
-            double m2 = moyenne(entites, annee1, annee2, prenom), m1 = moyenne(entites, entites[entites.Length - 1].annee, annee1 - 1, prenom);
-                                                                                            // ecart-type 
-                                                                                            // test qualificatif + affichage reponse  
+            return tabPrenom;  
         }        
-                                                                                            // Affiche des 100 prenoms d'une année choisie
-        public static void requeteE (entite[] entites )
-        {
-                                                                                            // a faire 
->>>>>>> origin/master
-        }
         public static double moyenne (entite[] tabPrenom, int anneeR, int anneeV) // anneeR (récente) anneeV (vieille)
         {
-<<<<<<< HEAD
             int i = 0, nbDeFoisDonneTotal = 0;
             while (i < tabPrenom.Length) 
             {
@@ -453,7 +439,6 @@ namespace ProjetInfo_GuidePrenoms
             double moy = nbDeFoisDonneTotal / (anneeV - anneeR);
             return moy; 
         }
-
         public static double ecartType (entite[] tabPrenom, int anneeR, int anneeV, double moy)
         {
             double somme = 0.0;
@@ -470,16 +455,6 @@ namespace ProjetInfo_GuidePrenoms
             return Math.Sqrt(somme / (anneeR - anneeV));
         }
 
-=======
-                                                                                            // a toi de jouer
-        }
-        public static double ecartType (entite[] entites, int annee1, int annee2, string prenom)
-        {
-        }
-        public static int esperance (entite[] entites, string prenom)
-        {
-        }*/
->>>>>>> origin/master
         static void Main(string[] args)
         {
             entite[] entites;
