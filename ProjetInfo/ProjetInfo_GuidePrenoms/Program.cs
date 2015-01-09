@@ -415,12 +415,17 @@ namespace ProjetInfo_GuidePrenoms
         {
             string prenom = saisirPrenom();
             entite[] tabPrenomConcerne = tabPrenomUnique(entites, prenom);
-            Console.WriteLine("Sur combien d'années voulez-vous connaitre la tendance du prénom {0} ?", prenom);
-            int N = nombreAnnees(entites, prenom);
-            int annee = tabPrenomConcerne[N].annee;
-            double m2 = moyenne(tabPrenomConcerne, tabPrenomConcerne[0].annee, annee), m1 = moyenne(tabPrenomConcerne, annee, tabPrenomConcerne[tabPrenomConcerne.Length - 1].annee);
-            double E = ecartType(tabPrenomConcerne, annee, tabPrenomConcerne[tabPrenomConcerne.Length - 1].annee, m1);
-            tendance(m1, m2, E, prenom);
+            if (tabPrenomConcerne != null)
+            {
+                Console.WriteLine("Sur combien d'années voulez-vous connaitre la tendance du prénom {0} ?", prenom);
+                int N = nombreAnnees(entites, prenom);
+                int annee = tabPrenomConcerne[N].annee;
+                double m2 = moyenne(tabPrenomConcerne, tabPrenomConcerne[0].annee, annee), m1 = moyenne(tabPrenomConcerne, annee, tabPrenomConcerne[tabPrenomConcerne.Length - 1].annee);
+                double E = ecartType(tabPrenomConcerne, annee, tabPrenomConcerne[tabPrenomConcerne.Length - 1].annee, m1);
+                tendance(m1, m2, E, prenom);
+            }
+            else
+                Console.WriteLine("Prénom non repertorié ! ");
         }
         public static entite[] tabPrenomUnique (entite[] entites, string prenom)
         {
@@ -431,6 +436,8 @@ namespace ProjetInfo_GuidePrenoms
                     k++;
                 i++;
             }
+            if (k == 0 || k == 1)                                                           // Si le prénom n'est pas dans le fichier, ou s'il n'y est qu'une fois, on ne peut pas réaliser l'étude
+                return null;
             i = 0;
             entite[] tabPrenom = new entite[k];                                             // On crée le tableau contenant uniquement le prenom concerné
             while (i < entites.Length)
