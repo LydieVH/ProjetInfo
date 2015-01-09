@@ -9,7 +9,7 @@ namespace ProjetInfo_GuidePrenoms
 {
     class Program
     {
-        public struct entite
+        public struct entite                                                                // Création de structure pour faciliter la mise en oeuvre de la suite du programme
         {
             public int annee;
             public string prenom;
@@ -22,7 +22,7 @@ namespace ProjetInfo_GuidePrenoms
             try
             {
                 string[] lignes = System.IO.File.ReadAllLines("prenoms_bordeaux.txt");
-                entites = new entite[lignes.Length-1];                                      // -1 car on prend pas la première ligne du fichier 
+                entites = new entite[lignes.Length-1];                                      // -1 car on ne prend pas la première ligne du fichier 
                 for (int i = 1; i < lignes.Length; i++)
                 {
                     string[] ligneDecoupee = lignes[i].Split();
@@ -139,14 +139,14 @@ namespace ProjetInfo_GuidePrenoms
             try
             {
                 int annee = int.Parse(Console.ReadLine());
-                while (annee > entites[0].annee || annee < entites[entites.Length - 1].annee)
+                while (annee > entites[0].annee || annee < entites[entites.Length - 1].annee)   // Cas où l'utilisateur rentre une année qui n'est pas répertoriée dans le document chargé
                 {
                     Console.WriteLine("Veuillez renseigner une année entre {0} et {1} s'il vous plaît", entites[entites.Length - 1].annee, entites[0].annee);
                     annee = int.Parse(Console.ReadLine());                
                 }
                 return annee;
             }
-            catch
+            catch                                                                               // Cas où l'utilisateur ne rentre pas une année
             {
                 Console.WriteLine("Veuillez renseigner une année entre {0} et {1} s'il vous plaît", entites[entites.Length - 1].annee, entites[0].annee);
                 int annee  = saisirAnnee(entites);
@@ -159,7 +159,7 @@ namespace ProjetInfo_GuidePrenoms
             annee1 = saisirAnnee(entites);
             Console.WriteLine("Quelle est l'année de fin de la période étudiée ?");
             annee2 = saisirAnnee(entites);
-            if (annee2 < annee1)
+            if (annee2 < annee1)                                                            // Remise dans l'ordre pour la suite du programme
             {
                 int tmp;
                 tmp = annee1;
@@ -186,10 +186,10 @@ namespace ProjetInfo_GuidePrenoms
                 h = 1;
                 i++;
             }
-            return k;
+            return k;                                                                       // Cet entier sert au dimensionnement d'un nouveau tableau de structure
         }
         public static entite[] rempliClassement(entite[] entites, entite[] entites2, int j, int n)
-        {
+        {                                                                                   // Rempli le nouveau tableau de structure
             int i = 0, h = j, rang;
             while (h < j + n)
             {
@@ -225,7 +225,7 @@ namespace ProjetInfo_GuidePrenoms
             entites2 = reetiquetage(entites2, k);                                           // On harmonise tous les rangs
             return entites2;
         }
-        public static entite[] triNaif(entite[] entites, int longueurListe)
+        public static entite[] triNaif(entite[] entites, int longueurListe)                 // Algorithme de tri en O(n²) 
         {
             int i = 0, j = 1;
             entite tmp;
@@ -246,7 +246,7 @@ namespace ProjetInfo_GuidePrenoms
             }
             return entites;
         }
-        public static entite[] triFusion(entite[] entites, int longueurListe)
+        public static entite[] triFusion(entite[] entites, int longueurListe)               // Algorithme de tri en O(n.log(n))
         {
             entite[] listeFinale = new entite[longueurListe];
             if (longueurListe == 1)
@@ -306,7 +306,7 @@ namespace ProjetInfo_GuidePrenoms
             }
             return listeTri;
         }
-        public static entite[] topDix(entite[] entites, int annee1, int annee2)
+        public static entite[] topDix(entite[] entites, int annee1, int annee2)             // Extrait les dix prénoms les plus utilisés du tableau entre les années 1 et 2
         {
             entite[] classement = classementPrenomsPeriode(entites, annee1, annee2);
             entite[] topDix = new entite[10];
@@ -319,7 +319,7 @@ namespace ProjetInfo_GuidePrenoms
             return topDix;
         }
         public static bool estDejaSaisi(entite[] entites, int rangMaxEntites, string prenom, out int rangMemePrenom)
-        {
+        {                                                                                   // Vérifie si un prénom est déjà présent dans la nouvelle liste en indiquant le rang de ce prénom si c'est le cas
             rangMemePrenom = 0;
             while (rangMemePrenom < rangMaxEntites)
             {
@@ -329,10 +329,44 @@ namespace ProjetInfo_GuidePrenoms
             }
             return false;
         }
+        public static int nombreAnnees(entite[] entites, string prenom)
+        {
+            try
+            {
+                
+                int N = int.Parse(Console.ReadLine());
+                while (N < 1 || N > entites[0].annee - entites[entites.Length - 1].annee)
+                {
+                    Console.WriteLine("Veuillez renseigner un nombre d'années entre 1 et {0} s'il vous plait", entites[0].annee - entites[entites.Length - 1].annee);
+                    N = int.Parse(Console.ReadLine());
+                }
+                return N;
+            }
+            catch
+            {
+                Console.WriteLine("Sur combien d'années voulez-vous connaitre la tendance du prénom {0} ?", prenom);
+                int N = nombreAnnees(entites, prenom);
+                return N;
+            }
+        }
+        public static void tendance(double m1, double m2, double E, string prenom)
+        {
+            double e = m2 - m1;
+            if (e <= -(2 * E))
+                Console.WriteLine("{0} est à l'abandon.", prenom);
+            else if (e > -(2 * E) && e < -E)
+                Console.WriteLine("{0} est désuet.", prenom);
+            else if (e >= -E && e <= E)
+                Console.WriteLine("{0} se maintient.", prenom);
+            else if (e > E && e < (2 * E))
+                Console.WriteLine("{0} est en vogue.", prenom);
+            else
+                Console.WriteLine("{0} explose !", prenom);
+        }
         public static void requeteA(entite[] entites)                                       // Nombre de naissance et Rang sur 100 d'un prénom sur une année
         {
             string prenomChoisi = saisirPrenom();
-            Console.WriteLine("Sur quelle année souhaitez-vous être renseigné ?");          // pourquoi pas le mettre dans saisir année ?  ca fait tache la
+            Console.WriteLine("Sur quelle année souhaitez-vous être renseigné ?");          // (Parce que ça ferait conflit avec saisirPériode qui utilise saisir année) pourquoi pas le mettre dans saisir année ?  ca fait tache la
             int anneeChoisie = saisirAnnee(entites);
             int i = (entites[0].annee - anneeChoisie) * 100;
             while ((i < (entites[0].annee - anneeChoisie) * 100 + 100) && (String.Equals(prenomChoisi, entites[i].prenom) == false))
@@ -349,14 +383,14 @@ namespace ProjetInfo_GuidePrenoms
             else
                 Console.WriteLine("Prenom non répertorié pour cette année.");
         }
-        public static void requeteB(entite[] entites)
+        public static void requeteB(entite[] entites)                                       // Donne le top 10 des prénoms sur une période donnée
         {
             int annee1, annee2;
             saisirPeriode(entites, out annee1, out annee2);
             entite[] classementTopDix = topDix(entites, annee1, annee2);
             afficheFichier(classementTopDix);
         }
-        public static void requeteC(entite[] entites)
+        public static void requeteC(entite[] entites)                                       // Donne le nombre de naissances et le rang d'un prénom quelconque sur une période donnée
         {
             string prenom = saisirPrenom();
             int annee1, annee2, i = 0;
@@ -377,43 +411,28 @@ namespace ProjetInfo_GuidePrenoms
                 Console.WriteLine("Ce prénom n'est pas répertorié durant cette période.");
 
         }
-        public static void requeteD (entite[] entites)                                      // ne marche pas quand le prenom n'apparait dans la liste que tard (yoann - de 5 ans ) tabPrenom a moins de 5 lignes ?
+        public static void requeteD(entite[] entites)                                       // ne marche pas quand le prenom n'apparait dans la liste que tard (yoann - de 5 ans ) tabPrenom a moins de 5 lignes ?
         {
             string prenom = saisirPrenom();
             entite[] tabPrenomConcerne = tabPrenomUnique(entites, prenom);
             Console.WriteLine("Sur combien d'années voulez-vous connaitre la tendance du prénom {0} ?", prenom);
-            int N = int.Parse(Console.ReadLine()); // GESTION DES ENTREES INCORECTES A FAIRE !!
+            int N = nombreAnnees(entites, prenom);
             int annee = tabPrenomConcerne[N].annee;
             double m2 = moyenne(tabPrenomConcerne, tabPrenomConcerne[0].annee, annee), m1 = moyenne(tabPrenomConcerne, annee, tabPrenomConcerne[tabPrenomConcerne.Length - 1].annee);
             double E = ecartType(tabPrenomConcerne, annee, tabPrenomConcerne[tabPrenomConcerne.Length - 1].annee, m1);
-            double e = (m2 - m1);
-            // à améliorer
-            if (e <= -(2 * E))
-                Console.WriteLine("{0} est à l'abandon.", prenom);
-            if (e > -(2 * E) && e < -E)
-                Console.WriteLine("{0} est désuet.", prenom);
-            if (e >= -E && e <= E)
-                Console.WriteLine("{0} se maintient.", prenom);
-            if(e > E && e < (2 * E))
-                Console.WriteLine("{0} est en vogue.", prenom);
-            if (e >= (2 * E))
-                Console.WriteLine("{0} explose !", prenom);
-            else 
-                Console.WriteLine("Erreur !!");
+            tendance(m1, m2, E, prenom);
         }
         public static entite[] tabPrenomUnique (entite[] entites, string prenom)
         {
-            int i = 0, k = 0, h = 0; 
-            // On détermine la taille du tableau = nb de fois où le prenom a été listé 
-            while (i < entites.Length)
+            int i = 0, k = 0, h = 0;
+            while (i < entites.Length)                                                      // On détermine la taille du tableau = nb de fois où le prenom a été listé 
             {
                 if (String.Equals(prenom, entites[i].prenom) == true)
                     k++;
                 i++;
             }
             i = 0;
-            // On crée le tableau contenant uniquement le prenom concerné
-            entite[] tabPrenom = new entite[k];
+            entite[] tabPrenom = new entite[k];                                             // On crée le tableau contenant uniquement le prenom concerné
             while (i < entites.Length)
             {
                 if (String.Equals(prenom, entites[i].prenom) == true)
