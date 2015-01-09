@@ -377,7 +377,7 @@ namespace ProjetInfo_GuidePrenoms
                 Console.WriteLine("Ce prénom n'est pas répertorié durant cette période.");
 
         }
-        public static void requeteD (entite[] entites) // ne marche pas quand le prenom n'apparait dans la liste que tard (yoann - de 5 ans ) tabPrenom a moins de 5 lignes ?
+        public static void requeteD (entite[] entites)                                      // ne marche pas quand le prenom n'apparait dans la liste que tard (yoann - de 5 ans ) tabPrenom a moins de 5 lignes ?
         {
             string prenom = saisirPrenom();
             entite[] tabPrenomConcerne = tabPrenomUnique(entites, prenom);
@@ -425,7 +425,7 @@ namespace ProjetInfo_GuidePrenoms
             }
             return tabPrenom;  
         }        
-        public static double moyenne (entite[] tabPrenom, int anneeR, int anneeV) // anneeR (récente) anneeV (vieille)
+        public static double moyenne (entite[] tabPrenom, int anneeR, int anneeV)           // anneeR (récente) anneeV (vieille)
         {
             int i = 0, nbDeFoisDonneTotal = 0;
             while (i < tabPrenom.Length) 
