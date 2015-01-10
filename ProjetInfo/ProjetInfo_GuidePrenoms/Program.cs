@@ -411,7 +411,7 @@ namespace ProjetInfo_GuidePrenoms
                 Console.WriteLine("Ce prénom n'est pas répertorié durant cette période.");
 
         }
-        public static void requeteD(entite[] entites)                                       // ne marche pas quand le prenom n'apparait dans la liste que tard (yoann - de 5 ans ) tabPrenom a moins de 5 lignes ?
+/*        public static void requeteD(entite[] entites)                                       // ne marche pas quand le prenom n'apparait dans la liste que tard (yoann - de 5 ans ) tabPrenom a moins de 5 lignes ?
         {
             string prenom = saisirPrenom();
             entite[] tabPrenomConcerne = tabPrenomUnique(entites, prenom);
@@ -427,7 +427,45 @@ namespace ProjetInfo_GuidePrenoms
             else
                 Console.WriteLine("Prénom non repertorié ! ");
         }
-        public static entite[] tabPrenomUnique (entite[] entites, string prenom)
+ */
+        public static int saisirN(entite[] entites)
+        {
+            int dureeMaxAutorisee = entites[0].annee - entites[entites.Length -1].annee;
+            try
+            {
+                int N = int.Parse(Console.ReadLine());
+                while (N > 0 || N < entites.Length )                                                                // Cas où l'utilisateur rentre une durée non comprise dans le fichier 
+                {
+                    Console.WriteLine("Veuillez renseigner une durée comprise entre 1 et {0} s'il vous plait", dureeMaxAutorisee);   
+                    N = int.Parse(Console.ReadLine());                
+                }
+                return N;
+            }
+            catch                                                                                                   // Cas où l'utilisateur ne rentre pas un nombre
+            {
+                Console.WriteLine("Veuillez renseigner une durée comprise entre 1 et {0} s'il vous plaît", dureeMaxAutorisee);
+                int N  = saisirN(entites);
+                return N;
+            }
+        }
+        public static void requeteD (entite[] entites)
+        {
+            string prenom = saisirPrenom();
+            Console.WriteLine("Sur combien d'année voulez-vous connaitre la tendance de ce prénom ?");
+            int N = saisirN(entites);
+            // Création des tableaux
+            int anneeCharniere = entites[0].annee - N;
+            entite[] tab1 = tabSpecifiquePrenom(entites, prenom, anneeCharniere - 1, entites[entites.Length - 1].annee);
+            entite[] tab2 = tabSpecifiquePrenom(entites, prenom, entites[0].annee, anneeCharniere);
+            // Calcul des moyennes des deux tableaux
+            // Calcul de E ( Ecart-Type de tab1 ) 
+            // calcul de e (m2-m1)
+        }
+        public static entite[] tabSpecifiquePrenom (entite[] entites, string prenom, int anneeDebut, int anneeFin)
+        {
+
+        }
+  /*      public static entite[] tabSpecifiquePrenom (entite[] entites, string prenom, int anneeDebut, int anneeFin)
         {
             int i = 0, k = 0, h = 0;
             while (i < entites.Length)                                                      // On détermine la taille du tableau = nb de fois où le prenom a été listé 
@@ -450,7 +488,8 @@ namespace ProjetInfo_GuidePrenoms
                 i++;
             }
             return tabPrenom;  
-        }        
+        }    
+*/
         public static double moyenne (entite[] tabPrenom, int anneeR, int anneeV)           // anneeR (récente) anneeV (vieille)
         {
             int i = 0, nbDeFoisDonneTotal = 0;
