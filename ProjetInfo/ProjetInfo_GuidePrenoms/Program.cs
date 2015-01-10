@@ -58,7 +58,25 @@ namespace ProjetInfo_GuidePrenoms
                     i++;
                 }
             }
-        } 
+        }
+        public static void afficheTopCentAnnee(entite[] entites, int longueur)              // Affichage du tableau pour vérification du chargement du fichier 
+        {
+            Console.WriteLine("Rang\tPrénom\t\tNombre");
+            int  i = longueur;
+            while (i < longueur + 100)                                                            // Gestion de l'alignement des colonnes
+            {
+                if (entites[i].prenom.Length > 7)
+                {
+                    Console.WriteLine("{0}\t{1}\t{2}", entites[i].rang, entites[i].prenom, entites[i].nbDeFoisDonne);
+                    i++;
+                }
+                else
+                {
+                    Console.WriteLine("{0}\t{1}\t\t{2}", entites[i].rang, entites[i].prenom, entites[i].nbDeFoisDonne);
+                    i++;
+                }
+            }
+        }
         public static void menu()                                                           // Affichage du MENU
         {
             Console.Write("Appuyez sur sur la touche entrée pour accéder au menu.");
@@ -123,7 +141,7 @@ namespace ProjetInfo_GuidePrenoms
                     programme(entites);
                     break;
                 case 5 : 
-                    // requeteE;
+                    requeteE(entites);
                     programme(entites);
                     break;
             }
@@ -431,7 +449,7 @@ namespace ProjetInfo_GuidePrenoms
                 return N;
             }
         }
-        public static void requeteD (entite[] entites)
+        public static void requeteD(entite[] entites)
         {
             string prenom = saisirPrenom();
             Console.WriteLine("Sur combien d'année voulez-vous connaitre la tendance de ce prénom ?");
@@ -446,7 +464,13 @@ namespace ProjetInfo_GuidePrenoms
             double m2 = moyenne(tab2);
             tendance(m1, m2, E, prenom);
         }
-        public static entite[] tabSpecifiquePrenom (entite[] entites, string prenom, int anneeDebut, int anneeFin)
+        public static void requeteE(entite[] entites)
+        {
+            Console.WriteLine("Sur quelle année souhaitez-vous être renseigné ?");
+            int an = saisirAnnee(entites), i = (entites[0].annee - an) * 100;
+            afficheTopCentAnnee(entites, i);
+        }
+        public static entite[] tabSpecifiquePrenom(entite[] entites, string prenom, int anneeDebut, int anneeFin)
         {
             entite[] tab = new entite[(anneeDebut - anneeFin) + 1];
             int i = 0, j = 0;
@@ -464,7 +488,7 @@ namespace ProjetInfo_GuidePrenoms
             }
             return tab;
         }
-        public static double moyenne (entite[] tab)           
+        public static double moyenne(entite[] tab)           
         {
             int i = 0;
             double moy = 0;
@@ -476,7 +500,7 @@ namespace ProjetInfo_GuidePrenoms
             moy = moy / tab.Length;
             return moy; 
         }
-        public static double ecartType (entite[] tab, double moy)
+        public static double ecartType(entite[] tab, double moy)
         {
             double somme = 0.0;
             for (int i = 0; i < tab.Length; i++)
