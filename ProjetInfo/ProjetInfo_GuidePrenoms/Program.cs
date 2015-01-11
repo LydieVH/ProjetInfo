@@ -77,75 +77,6 @@ namespace ProjetInfo_GuidePrenoms
                 }
             }
         }
-        public static void menu()                                                           // Affichage du MENU
-        {
-            Console.Write("Appuyez sur sur la touche entrée pour accéder au menu.");
-            Console.ReadLine();
-            Console.WriteLine("+-----------------------------------------------------------------------------+");
-            Console.WriteLine("|                                     MENU                                    |");
-            Console.WriteLine("+-----------+-----------------------------------------------------------------+");
-            Console.WriteLine("| Requête 1 | Donne le nombre de naissances et le rang sur 100 d'un prénom    |");
-            Console.WriteLine("|           | quelconque sur une année donnée.                                |");
-            Console.WriteLine("|  TAPEZ 1  |                                                                 |");
-            Console.WriteLine("+-----------+-----------------------------------------------------------------+");
-            Console.WriteLine("| Requête 2 | Donne le top 10 des prénoms sur une période donnée.             |");
-            Console.WriteLine("|           |                                                                 |");
-            Console.WriteLine("|  TAPEZ 2  |                                                                 |");
-            Console.WriteLine("+-----------+-----------------------------------------------------------------+");
-            Console.WriteLine("| Requête 3 | Donne le nombre de naissances et le rang d'un prénom quelconque |");
-            Console.WriteLine("|           | sur une période donnée.                                         |");
-            Console.WriteLine("|  TAPEZ 3  |                                                                 |");
-            Console.WriteLine("+-----------+-----------------------------------------------------------------+");
-            Console.WriteLine("| Requête 4 | Donne la tendance d'un prénom quelconque sur les N dernières    |");
-            Console.WriteLine("|           | années.                                                         |");
-            Console.WriteLine("|  TAPEZ 4  |                                                                 |");
-            Console.WriteLine("+-----------+-----------------------------------------------------------------+");
-            Console.WriteLine("| Requête 5 | Donne la liste complète d'une année donnée.                     |");
-            Console.WriteLine("|           |                                                                 |");
-            Console.WriteLine("|  TAPEZ 5  |                                                                 |");
-            Console.WriteLine("+-----------+-----------------------------------------------------------------+");
-            Console.WriteLine("|  Tapez 0  | Quitter                                                         |");
-            Console.WriteLine("+-----------+-----------------------------------------------------------------+");
-        }
-        public static void programme(entite[] entites)                                      // Choix de la requête
-        {
-            menu();
-            string commande;
-            do
-            {
-                Console.WriteLine("Entrez le numéro de la requête souhaitée s'il vous plait.");
-                commande = Console.ReadLine();
-            }
-            while (commande != "0" && commande != "1" && commande != "2" && commande != "3" && commande != "4" && commande != "5"); // Gestion des erreurs de frappe éventuelles
-            int select = int.Parse(commande);
-            switch (select)
-            {
-                case 0 :
-                    Console.WriteLine("Au revoir !");
-                    Console.WriteLine("Appuyez sur une toucher pour quitter.");
-                    break;
-                case 1 :
-                    requeteA(entites);
-                    programme(entites);
-                    break;
-                case 2 :
-                    requeteB(entites);                    
-                    programme(entites);
-                    break;
-                case 3 :
-                    requeteC(entites);
-                    programme(entites);
-                    break;
-                case 4 :
-                    requeteD(entites);
-                    programme(entites);
-                    break;
-                case 5 : 
-                    requeteE(entites);
-                    programme(entites);
-                    break;
-            }
-        }
         public static string saisirPrenom ()                                                //(entite[] entites)
         {
             Console.WriteLine("Sur quel prénom voulez-vous être renseigné ?");
@@ -183,6 +114,26 @@ namespace ProjetInfo_GuidePrenoms
                 tmp = annee1;
                 annee1 = annee2;
                 annee2 = tmp;
+            }
+        }
+        public static int saisirN(entite[] entites)
+        {
+            int dureeMaxAutorisee = entites[0].annee - entites[entites.Length - 1].annee;
+            try
+            {
+                int N = int.Parse(Console.ReadLine());
+                while (N < 0 || N > (entites[0].annee - 1900))                                                                // Cas où l'utilisateur rentre une durée non comprise dans le fichier 
+                {
+                    Console.WriteLine("Veuillez renseigner une durée comprise entre 1 et {0} s'il vous plait", dureeMaxAutorisee);
+                    N = int.Parse(Console.ReadLine());
+                }
+                return N;
+            }
+            catch                                                                                                   // Cas où l'utilisateur ne rentre pas un nombre
+            {
+                Console.WriteLine("Veuillez renseigner une durée comprise entre 1 et {0} s'il vous plaît", dureeMaxAutorisee);
+                int N = saisirN(entites);
+                return N;
             }
         }
         public static int trouveNombrePrenomsDifferents(entite[] entites, int annee1, int annee2, out int j, out int n)
@@ -367,6 +318,46 @@ namespace ProjetInfo_GuidePrenoms
                 return N;
             }
         }
+        public static entite[] tabSpecifiquePrenom(entite[] entites, string prenom, int anneeDebut, int anneeFin)
+        {
+            entite[] tab = new entite[(anneeDebut - anneeFin) + 1];
+            int i = 0, j = 0;
+            while (i < entites.Length)
+            {
+                if (entites[i].annee <= anneeDebut && entites[i].annee >= anneeFin)
+                {
+                    if (String.Equals(prenom, entites[i].prenom) == true)
+                    {
+                        tab[j] = entites[i];
+                        j++;
+                    }
+                }
+                i++;
+            }
+            return tab;
+        }
+        public static double moyenne(entite[] tab)
+        {
+            int i = 0;
+            double moy = 0;
+            while (i < tab.Length)
+            {
+                moy += tab[i].nbDeFoisDonne;
+                i++;
+            }
+            moy = moy / tab.Length;
+            return moy;
+        }
+        public static double ecartType(entite[] tab, double moy)
+        {
+            double somme = 0.0;
+            for (int i = 0; i < tab.Length; i++)
+            {
+                double delta = tab[i].nbDeFoisDonne - moy;
+                somme += delta * delta;
+            }
+            return Math.Sqrt(somme / (tab.Length - 1));
+        }
         public static void tendance(double m1, double m2, double E, string prenom)
         {
             double e = m2 - m1;
@@ -380,6 +371,75 @@ namespace ProjetInfo_GuidePrenoms
                 Console.WriteLine("{0} est en vogue.", prenom);
             else
                 Console.WriteLine("{0} explose !", prenom);
+        }
+        public static void menu()                                                           // Affichage du MENU
+        {
+            Console.Write("Appuyez sur sur la touche entrée pour accéder au menu.");
+            Console.ReadLine();
+            Console.WriteLine("+-----------------------------------------------------------------------------+");
+            Console.WriteLine("|                                     MENU                                    |");
+            Console.WriteLine("+-----------+-----------------------------------------------------------------+");
+            Console.WriteLine("| Requête 1 | Donne le nombre de naissances et le rang sur 100 d'un prénom    |");
+            Console.WriteLine("|           | quelconque sur une année donnée.                                |");
+            Console.WriteLine("|  TAPEZ 1  |                                                                 |");
+            Console.WriteLine("+-----------+-----------------------------------------------------------------+");
+            Console.WriteLine("| Requête 2 | Donne le top 10 des prénoms sur une période donnée.             |");
+            Console.WriteLine("|           |                                                                 |");
+            Console.WriteLine("|  TAPEZ 2  |                                                                 |");
+            Console.WriteLine("+-----------+-----------------------------------------------------------------+");
+            Console.WriteLine("| Requête 3 | Donne le nombre de naissances et le rang d'un prénom quelconque |");
+            Console.WriteLine("|           | sur une période donnée.                                         |");
+            Console.WriteLine("|  TAPEZ 3  |                                                                 |");
+            Console.WriteLine("+-----------+-----------------------------------------------------------------+");
+            Console.WriteLine("| Requête 4 | Donne la tendance d'un prénom quelconque sur les N dernières    |");
+            Console.WriteLine("|           | années.                                                         |");
+            Console.WriteLine("|  TAPEZ 4  |                                                                 |");
+            Console.WriteLine("+-----------+-----------------------------------------------------------------+");
+            Console.WriteLine("| Requête 5 | Donne la liste complète d'une année donnée.                     |");
+            Console.WriteLine("|           |                                                                 |");
+            Console.WriteLine("|  TAPEZ 5  |                                                                 |");
+            Console.WriteLine("+-----------+-----------------------------------------------------------------+");
+            Console.WriteLine("|  Tapez 0  | Quitter                                                         |");
+            Console.WriteLine("+-----------+-----------------------------------------------------------------+");
+        }
+        public static void programme(entite[] entites)                                      // Choix de la requête
+        {
+            menu();
+            string commande;
+            do
+            {
+                Console.WriteLine("Entrez le numéro de la requête souhaitée s'il vous plait.");
+                commande = Console.ReadLine();
+            }
+            while (commande != "0" && commande != "1" && commande != "2" && commande != "3" && commande != "4" && commande != "5"); // Gestion des erreurs de frappe éventuelles
+            int select = int.Parse(commande);
+            switch (select)
+            {
+                case 0:
+                    Console.WriteLine("Au revoir !");
+                    Console.WriteLine("Appuyez sur une toucher pour quitter.");
+                    break;
+                case 1:
+                    requeteA(entites);
+                    programme(entites);
+                    break;
+                case 2:
+                    requeteB(entites);
+                    programme(entites);
+                    break;
+                case 3:
+                    requeteC(entites);
+                    programme(entites);
+                    break;
+                case 4:
+                    requeteD(entites);
+                    programme(entites);
+                    break;
+                case 5:
+                    requeteE(entites);
+                    programme(entites);
+                    break;
+            }
         }
         public static void requeteA(entite[] entites)                                       // Nombre de naissance et Rang sur 100 d'un prénom sur une année
         {
@@ -429,26 +489,6 @@ namespace ProjetInfo_GuidePrenoms
                 Console.WriteLine("Ce prénom n'est pas répertorié durant cette période.");
 
         }
-        public static int saisirN(entite[] entites)
-        {
-            int dureeMaxAutorisee = entites[0].annee - entites[entites.Length -1].annee;
-            try
-            {
-                int N = int.Parse(Console.ReadLine());
-                while (N < 0 || N > entites.Length )                                                                // Cas où l'utilisateur rentre une durée non comprise dans le fichier 
-                {
-                    Console.WriteLine("Veuillez renseigner une durée comprise entre 1 et {0} s'il vous plait", dureeMaxAutorisee);   
-                    N = int.Parse(Console.ReadLine());                
-                }
-                return N;
-            }
-            catch                                                                                                   // Cas où l'utilisateur ne rentre pas un nombre
-            {
-                Console.WriteLine("Veuillez renseigner une durée comprise entre 1 et {0} s'il vous plaît", dureeMaxAutorisee);
-                int N  = saisirN(entites);
-                return N;
-            }
-        }
         public static void requeteD(entite[] entites)
         {
             string prenom = saisirPrenom();
@@ -459,56 +499,21 @@ namespace ProjetInfo_GuidePrenoms
             Console.WriteLine(" anneeCharniere = {0}", anneeCharniere);
             entite[] tab2 = tabSpecifiquePrenom(entites, prenom, entites[0].annee, anneeCharniere);                         // Tableau de la période souhaitée
             entite[] tab1 = tabSpecifiquePrenom(entites, prenom, anneeCharniere - 1, entites[entites.Length - 1].annee);    // Tableau du reste
-            double m1 = moyenne(tab1);
-            double E = ecartType(tab1, m1);
-            double m2 = moyenne(tab2);
-            tendance(m1, m2, E, prenom);
+            if (tab1.Length >= 2)                                                                                           // Gestion des cas où la tendance n'est pas réalisable 
+            {
+                double m1 = moyenne(tab1);
+                double E = ecartType(tab1, m1);
+                double m2 = moyenne(tab2);
+                tendance(m1, m2, E, prenom);
+            }
+            else
+                Console.WriteLine("Il est impossible de donner une tendance dans ces conditions, désolé !");
         }
         public static void requeteE(entite[] entites)
         {
             Console.WriteLine("Sur quelle année souhaitez-vous être renseigné ?");
             int an = saisirAnnee(entites), i = (entites[0].annee - an) * 100;
             afficheTopCentAnnee(entites, i);
-        }
-        public static entite[] tabSpecifiquePrenom(entite[] entites, string prenom, int anneeDebut, int anneeFin)
-        {
-            entite[] tab = new entite[(anneeDebut - anneeFin) + 1];
-            int i = 0, j = 0;
-            while (i < entites.Length)
-            {
-                if ( entites[i].annee <= anneeDebut && entites[i].annee >= anneeFin)
-                {
-                    if (String.Equals(prenom, entites[i].prenom) == true)
-                    {
-                        tab[j] = entites[i];
-                        j++;
-                    }
-                }
-                i++;
-            }
-            return tab;
-        }
-        public static double moyenne(entite[] tab)           
-        {
-            int i = 0;
-            double moy = 0;
-            while (i < tab.Length) 
-            {
-                moy += tab[i].nbDeFoisDonne;
-                i++;
-            }
-            moy = moy / tab.Length;
-            return moy; 
-        }
-        public static double ecartType(entite[] tab, double moy)
-        {
-            double somme = 0.0;
-            for (int i = 0; i < tab.Length; i++)
-            {
-                double delta = tab[i].nbDeFoisDonne - moy;
-                somme += delta*delta;
-            }
-            return Math.Sqrt(somme / (tab.Length - 1));
         }
 
         static void Main(string[] args)
