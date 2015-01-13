@@ -77,10 +77,16 @@ namespace ProjetInfo_GuidePrenoms
                 }
             }
         }
-        public static string saisirPrenom ()                                                //(entite[] entites)
+        public static string saisirPrenom (entite[] entites)
         {
             Console.WriteLine("Sur quel prénom voulez-vous être renseigné ?");
             string prenomChoisi = Console.ReadLine().ToUpperInvariant();                    // Mise en majuscules du prénom pour correspondre à la liste du fichier
+            int rang;
+            while (estDejaSaisi(entites, entites.Length, prenomChoisi, out rang) == false)
+            {
+                Console.WriteLine("Ce prénom n'est pas répertorié, sur quel autre prénom voulez-vous être renseigné ?");
+                prenomChoisi = Console.ReadLine().ToUpperInvariant();
+            }
             return prenomChoisi;
         }
         public static int saisirAnnee(entite[] entites)
@@ -118,18 +124,18 @@ namespace ProjetInfo_GuidePrenoms
         }
         public static int saisirN(entite[] entites)
         {
-            int dureeMaxAutorisee = entites[0].annee - entites[entites.Length - 1].annee;
+            int dureeMaxAutorisee = entites[0].annee - entites[entites.Length - 1].annee -1;
             try
             {
                 int N = int.Parse(Console.ReadLine());
-                while (N < 0 || N > (entites[0].annee - 1900))                                                                // Cas où l'utilisateur rentre une durée non comprise dans le fichier 
+                while (N < 1 || N > dureeMaxAutorisee)                                      // Cas où l'utilisateur rentre une durée non comprise dans le fichier 
                 {
                     Console.WriteLine("Veuillez renseigner une durée comprise entre 1 et {0} s'il vous plait", dureeMaxAutorisee);
                     N = int.Parse(Console.ReadLine());
                 }
                 return N;
             }
-            catch                                                                                                   // Cas où l'utilisateur ne rentre pas un nombre
+            catch                                                                           // Cas où l'utilisateur ne rentre pas un nombre
             {
                 Console.WriteLine("Veuillez renseigner une durée comprise entre 1 et {0} s'il vous plaît", dureeMaxAutorisee);
                 int N = saisirN(entites);
@@ -443,7 +449,7 @@ namespace ProjetInfo_GuidePrenoms
         }
         public static void requeteA(entite[] entites)                                       // Nombre de naissance et Rang sur 100 d'un prénom sur une année
         {
-            string prenomChoisi = saisirPrenom();
+            string prenomChoisi = saisirPrenom(entites);
             Console.WriteLine("Sur quelle année souhaitez-vous être renseigné ?");          // (Parce que ça ferait conflit avec saisirPériode qui utilise saisir année) pourquoi pas le mettre dans saisir année ?  ca fait tache la
             int anneeChoisie = saisirAnnee(entites);
             int i = (entites[0].annee - anneeChoisie) * 100;
@@ -470,7 +476,7 @@ namespace ProjetInfo_GuidePrenoms
         }
         public static void requeteC(entite[] entites)                                       // Donne le nombre de naissances et le rang d'un prénom quelconque sur une période donnée
         {
-            string prenom = saisirPrenom();
+            string prenom = saisirPrenom(entites);
             int annee1, annee2, i = 0;
             saisirPeriode(entites, out annee1, out annee2);
             entite[] classement = classementPrenomsPeriode(entites, annee1, annee2);
@@ -491,12 +497,11 @@ namespace ProjetInfo_GuidePrenoms
         }
         public static void requeteD(entite[] entites)
         {
-            string prenom = saisirPrenom();
+            string prenom = saisirPrenom(entites);
             Console.WriteLine("Sur combien d'année voulez-vous connaitre la tendance de ce prénom ?");
             int N = saisirN(entites);
             // Création des tableaux
             int anneeCharniere = entites[0].annee - N;
-            Console.WriteLine(" anneeCharniere = {0}", anneeCharniere);
             entite[] tab2 = tabSpecifiquePrenom(entites, prenom, entites[0].annee, anneeCharniere);                         // Tableau de la période souhaitée
             entite[] tab1 = tabSpecifiquePrenom(entites, prenom, anneeCharniere - 1, entites[entites.Length - 1].annee);    // Tableau du reste
             if (tab1.Length >= 2)                                                                                           // Gestion des cas où la tendance n'est pas réalisable 
