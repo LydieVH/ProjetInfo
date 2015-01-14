@@ -175,7 +175,7 @@ namespace ProjetInfo_GuidePrenoms
             int anneeCharniere = entites[0].annee - N;
             entite[] tab2 = tabSpecifiquePrenom(entites, prenom, entites[0].annee, anneeCharniere);                         // Tableau de la période souhaitée
             entite[] tab1 = tabSpecifiquePrenom(entites, prenom, anneeCharniere - 1, entites[entites.Length - 1].annee);    // Tableau du reste
-            if (tab1.Length >= 2)                                                                                           // Gestion des cas où la tendance n'est pas réalisable 
+            if (tab1[0].nbDeFoisDonne != 0 && tab2[0].nbDeFoisDonne !=0)                                                    // Si un des tableau est vide, la tendance ne peut être réalisée                                                                                      // Gestion des cas où la tendance n'est pas réalisable 
             {
                 double m1 = moyenne(tab1);
                 double E = ecartType(tab1, m1);
