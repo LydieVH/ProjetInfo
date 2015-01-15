@@ -25,7 +25,8 @@ namespace ProjetInfo_GuidePrenoms
             programme(entites);
             Console.ReadLine();
         }
-        // Chargement du fichier source dans un tableau de la structure entite. Sortie : Donne la copie du fichier (entites)
+        // Chargement du fichier source dans un tableau de la structure entite.
+        // Sortie : Donne la copie du fichier (entites)
         public static void copieFichierDansTableau(out entite[] entites)   
         {
             Console.WriteLine("Chargement du fichier, veuillez patientez...");
@@ -128,7 +129,8 @@ namespace ProjetInfo_GuidePrenoms
                     break;
             }
         }
-        // Nombre de naissances et Rang sur 100 d'un prénom sur une année. Entrée : Copie du fichier (entites)
+        // Nombre de naissances et Rang sur 100 d'un prénom sur une année. 
+        // Entrée : Copie du fichier (entites)
         public static void prenomAnnee(entite[] entites) 
         {
             string prenomC = saisirPrenom(entites);
@@ -158,7 +160,8 @@ namespace ProjetInfo_GuidePrenoms
             else
                 Console.WriteLine("Prenom non répertorié pour cette année.");
         }
-        // Donne le top 10 des prénoms sur une période donnée. Entrée : Copie du fichier (entites)
+        // Donne le top 10 des prénoms sur une période donnée. 
+        // Entrée : Copie du fichier (entites)
         public static void top10Periode(entite[] entites)     
         {
             int annee1, annee2;
@@ -167,7 +170,8 @@ namespace ProjetInfo_GuidePrenoms
             Console.WriteLine("Entre {0} et {1}, le top 10 est :", annee1, annee2);
             afficheFichier(classementTopDix);
         }
-        // Donne le nombre de naissances et le rang d'un prénom quelconque sur une période donnée. Entrée : Copie du fichier (entites)
+        // Donne le nombre de naissances et le rang d'un prénom quelconque sur une période donnée. 
+        // Entrée : Copie du fichier (entites)
         public static void prenomPeriode(entite[] entites)  
         {
             string prenom = saisirPrenom(entites);
@@ -192,7 +196,8 @@ namespace ProjetInfo_GuidePrenoms
                 Console.WriteLine("Ce prénom n'est pas répertorié durant cette période.");
 
         }
-        // Donne la tendance d'un prénom sur les N dernières années. Entrée : Copie du fichier (entites)
+        // Donne la tendance d'un prénom sur les N dernières années. 
+        // Entrée : Copie du fichier (entites)
         public static void prenomTendance(entite[] entites)
         {
             string prenom = saisirPrenom(entites);
@@ -215,7 +220,8 @@ namespace ProjetInfo_GuidePrenoms
                 Console.WriteLine(" précédentes!");
             }
         }
-        // Donne le Top 100 d'une année donnée. Entrée : Copie du fichier (entites)
+        // Donne le Top 100 d'une année donnée. 
+        // Entrée : Copie du fichier (entites)
         public static void top100Annee(entite[] entites)
         {
             Console.WriteLine("Sur quelle année souhaitez-vous être renseigné ?");
@@ -223,7 +229,9 @@ namespace ProjetInfo_GuidePrenoms
             afficheTopCentAnnee(entites, i);
         }
 
-        // Demande et stocke le prenom voulu. Entrée : Copie du fichier (entites). Sortie : Prénom choisi
+        // Demande et stocke le prenom voulu. 
+        // Entrée : Copie du fichier (entites). 
+        // Sortie : Prénom choisi
         public static string saisirPrenom(entite[] entites)
         {
             Console.WriteLine("Sur quel prénom voulez-vous être renseigné ?");
@@ -237,7 +245,9 @@ namespace ProjetInfo_GuidePrenoms
             }
             return prenomChoisi;
         }
-        // Demande et stocke l'année voulue. Entrée : Copie du fichier (entites). Sortie : Année choisie
+        // Demande et stocke l'année voulue. 
+        // Entrée : Copie du fichier (entites). 
+        // Sortie : Année choisie
         public static int saisirAnnee(entite[] entites)
         {
             try
@@ -259,7 +269,9 @@ namespace ProjetInfo_GuidePrenoms
                 return annee;
             }
         }
-        // Demande et stocke la période voulue. Entrée : Copie du fichier (entites). Sortie : Année de début et Année de fin de période
+        // Demande et stocke la période voulue. 
+        // Entrée : Copie du fichier (entites). 
+        // Sortie : Année de début et Année de fin de période
         public static void saisirPeriode(entite[] entites, out int annee1, out int annee2)
         {
             Console.WriteLine("Quelle est l'année de début de la période étudiée ?");
@@ -274,7 +286,9 @@ namespace ProjetInfo_GuidePrenoms
                 annee2 = tmp;
             }
         }
-        // Extrait les dix prénoms les plus utilisés du tableau entre les années 1 et 2. Entrées : Copie du fichier (entites), année de début et année de fin de période. Sortie : Tableau contenant le top10
+        // Extrait les dix prénoms les plus utilisés du tableau entre les années 1 et 2.
+        // Entrées : Copie du fichier (entites), année de début et année de fin de période. 
+        // Sortie : Tableau contenant le top10
         public static entite[] topDix(entite[] entites, int annee1, int annee2) 
         {
             entite[] classement = classementPeriode(entites, annee1, annee2);
@@ -287,7 +301,8 @@ namespace ProjetInfo_GuidePrenoms
             }
             return topDix;
         }
-        // Affiche le tableau donné en entrée. Entrée : Tableau du classement à afficher
+        // Affiche le tableau donné en entrée. 
+        // Entrée : Tableau du classement à afficher
         public static void afficheFichier(entite[] entites)   
         {
             Console.WriteLine("Rang\tPrénom\t\tNombre");
@@ -306,7 +321,9 @@ namespace ProjetInfo_GuidePrenoms
                 }
             }
         }
-        // Donne le classement des prénoms sur une période donnée. Entrées: Copie du fichier (entites), année de début et année de fin de la période. Sortie : Classement des prénoms 
+        // Donne le classement des prénoms sur une période donnée. 
+        // Entrées: Copie du fichier (entites), année de début et année de fin de la période. 
+        // Sortie : Classement des prénoms 
         public static entite[] classementPeriode(entite[] entites, int annee1, int annee2)
         {
             int j, n;
@@ -317,7 +334,8 @@ namespace ProjetInfo_GuidePrenoms
             entites2 = reetiquetage(entites2, k);                                           // On harmonise tous les rangs
             return entites2;
         }
-        // Demande et stocke le nombre d'années N sur lequel calculer la tendance. Entrée : Copie du fichier (entites)
+        // Demande et stocke le nombre d'années N sur lequel calculer la tendance.
+        // Entrée : Copie du fichier (entites)
         public static int saisirN(entite[] entites)
         {
             int dureeMaxAutorisee = entites[0].annee - entites[entites.Length - 1].annee - 1;
@@ -338,7 +356,9 @@ namespace ProjetInfo_GuidePrenoms
                 return N;
             }
         }
-        // Créer un tableau des lignes ne concernant que le prénom choisi entre les dates données. Entrées : Copie du fichier (entites), prenom concerné, année de début et année de fin de la période. Sortie : Tableau des données associées au prénom choisi sur la période donnée
+        // Créer un tableau des lignes ne concernant que le prénom choisi entre les dates données. 
+        // Entrées : Copie du fichier (entites), prenom concerné, année de début et année de fin de la période. 
+        // Sortie : Tableau des données associées au prénom choisi sur la période donnée
         public static entite[] tSpePrenom(entite[] entites, string prenom, int anneeDebut, int anneeFin)
         {
             entite[] tab = new entite[(anneeDebut - anneeFin) + 1];
@@ -357,7 +377,9 @@ namespace ProjetInfo_GuidePrenoms
             }
             return tab;
         }
-        // Calcule la moyenne du nombre de naissances par année sur une période donnée. Entrée : tableau concernant un prénom sur une période. Sortie : moyenne
+        // Calcule la moyenne du nombre de naissances par année sur une période donnée.
+        // Entrée : tableau concernant un prénom sur une période. 
+        // Sortie : moyenne
         public static double moyenne(entite[] tab)
         {
             int i = 0;
@@ -370,7 +392,9 @@ namespace ProjetInfo_GuidePrenoms
             moy = moy / tab.Length;
             return moy;
         }
-        // Calcule l'écart-type du tableau. Entrées : tableau concernant un prénom sur une période, moyenne associée à ce tableau. Sortie : Ecart-type
+        // Calcule l'écart-type du tableau. 
+        // Entrées : tableau concernant un prénom sur une période, moyenne associée à ce tableau.
+        // Sortie : Ecart-type
         public static double ecartType(entite[] tab, double moy)
         {
             double somme = 0.0;
@@ -381,7 +405,8 @@ namespace ProjetInfo_GuidePrenoms
             }
             return Math.Sqrt(somme / (tab.Length - 1));
         }
-        // Calcule et affiche la tendance d'un prénom sur les N dernières années. Entrées : Moyenne des N dernières années, moyenne des années précédentes, écart-type d'attribution de ce prénom, le prenom.
+        // Calcule et affiche la tendance d'un prénom sur les N dernières années.
+        // Entrées : Moyenne des N dernières années, moyenne des années précédentes, écart-type d'attribution de ce prénom, le prenom.
         public static void tendance(double m1, double m2, double E, string prenom)
         {
             double e = m2 - m1;
@@ -396,7 +421,8 @@ namespace ProjetInfo_GuidePrenoms
             else
                 Console.WriteLine("{0} explose !", prenom);
         }
-        // Affiche le top 100 d'une année donnée. Entrées : Copie du fichier (entites), rang du premier prénom de l'année concernée dans la copie du fichier
+        // Affiche le top 100 d'une année donnée. 
+        // Entrées : Copie du fichier (entites), rang du premier prénom de l'année concernée dans la copie du fichier
         public static void afficheTopCentAnnee(entite[] entites, int longueur)  
         {
             Console.WriteLine("Rang\tPrénom\t\tNombre");
@@ -416,9 +442,11 @@ namespace ProjetInfo_GuidePrenoms
             }
         }
 
-        // 
+        // Vérifie si le prénom est déjà présent dans la nouvelle liste en indiquant le rang de ce prénom si c'est le cas
+        // Entrées : Copie du fichier (entites), rang jusqu'auquel vérifier, le prénom
+        // Sortie : Vrai si le prénom est déjà dans la liste, sinon Faux. Si vrai, le rang trouvé
         public static bool estDejaSaisi(entite[] entites, int rgMax, string prenom, out int rgMPrenom)
-        {                                                                                   // Vérifie si un prénom est déjà présent dans la nouvelle liste en indiquant le rang de ce prénom si c'est le cas
+        {            
             rgMPrenom = 0;
             while (rgMPrenom < rgMax)
             {
@@ -428,6 +456,9 @@ namespace ProjetInfo_GuidePrenoms
             }
             return false;
         }
+        // Donne le nombre de prénom différents présent dans la copie du fichier, sur une période donnée
+        // Entrées : Copie du fichier (entites), année de début et année de fin de la période
+        // Sortie : Nombre de prénoms différents, 
         public static int nbPrenomsDiff(entite[] entites, int annee1, int annee2, out int j, out int n)
         {
             j = (entites[0].annee - annee2) * 100;
@@ -449,8 +480,11 @@ namespace ProjetInfo_GuidePrenoms
             }
             return k;                                                                       // Cet entier sert au dimensionnement d'un nouveau tableau de structure
         }
+        // Rempli le nouveau tableau
+        // Entrées : Copie du fichier (entites), nouveau tableau à remplir
+        // Sortie : Nouveau tableau rempli,
         public static entite[] rempliClassement(entite[] entites, entite[] entites2, int j, int n)
-        {                                                                                   // Rempli le nouveau tableau de structure
+        {                                    
             int i = 0, h = j, rang;
             while (h < j + n)
             {
@@ -466,6 +500,9 @@ namespace ProjetInfo_GuidePrenoms
             }
             return entites2;
         }
+        // Actualise les nouveaux rang du tableau
+        // Entrées : Tableau à modifier, longueur du tableau
+        // Sortie : Tableau mis à jour
         public static entite[] reetiquetage(entite[] entites2, int k)
         {
             int i = 0;
@@ -476,7 +513,10 @@ namespace ProjetInfo_GuidePrenoms
             }
             return entites2;
         }
-        public static entite[] triNaif(entite[] entites, int longueurListe)                 // Algorithme de tri en O(n²) /!\ Moins efficient que triFusion, non utilisé ici. 
+        // Algorithme de tri en O(n²) /!\ Moins efficient que triFusion, non utilisé ici. 
+        // Entrées : 
+        // Sortie : 
+        public static entite[] triNaif(entite[] entites, int longueurListe)   
         {
             int i = 0, j = 1;
             entite tmp;
@@ -497,7 +537,10 @@ namespace ProjetInfo_GuidePrenoms
             }
             return entites;
         }
-        public static entite[] triFusion(entite[] entites, int longueurListe)               // Algorithme de tri en O(n.log(n))
+        // Algorithme de tri en O(n.log(n))
+        // Entrées : 
+        // Sortie : 
+        public static entite[] triFusion(entite[] entites, int longueurListe)    
         {
             entite[] listeFinale = new entite[longueurListe];
             if (longueurListe == 1)
@@ -523,6 +566,9 @@ namespace ProjetInfo_GuidePrenoms
             listeFinale = fusionne(liste1, liste2);
             return listeFinale;
         }
+        // 
+        // Entrées :  
+        // Sortie :
         public static entite[] fusionne(entite[] entites1, entite[] entites2)
         {
             int longueurliste1 = entites1.Length, longueurliste2 = entites2.Length;
