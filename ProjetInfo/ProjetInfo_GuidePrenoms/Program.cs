@@ -97,12 +97,13 @@ namespace ProjetInfo_GuidePrenoms
         {
             menu();
             string cde;
+            // Gestion des erreurs de frappe éventuelles
             do
             {
                 Console.WriteLine("Entrez le numéro de la requête souhaitée s'il vous plait.");
                 cde = Console.ReadLine();
             }
-            while (cde != "0" && cde != "1" && cde != "2" && cde != "3" && cde != "4" && cde != "5"); // Gestion des erreurs de frappe éventuelles
+            while (cde != "0" && cde != "1" && cde != "2" && cde != "3" && cde != "4" && cde != "5"); 
             int select = int.Parse(cde);
             switch (select)
             {
