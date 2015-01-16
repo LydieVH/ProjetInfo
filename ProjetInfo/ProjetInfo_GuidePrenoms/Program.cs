@@ -213,20 +213,11 @@ namespace ProjetInfo_GuidePrenoms
             // Tableau de la période souhaitée
             entite[] tab2 = tSpePrenom(entites, prenom, entites[0].annee, anneeCharniere);
             // Tableau du reste
-            entite[] tab1 = tSpePrenom(entites, prenom, anneeCharniere - 1, entites[entites.Length - 1].annee);
-            // Si un des tableau est vide, la tendance ne peut être réalisée
-            if (tab1[0].nbDeFoisDonne != 0 && tab2[0].nbDeFoisDonne != 0)
-            {
-                double m1 = moyenne(tab1);
-                double E = ecartType(tab1, m1);
-                double m2 = moyenne(tab2);
-                tendance(m1, m2, E, prenom);
-            }
-            else
-            {
-                Console.Write("Ce prénom n'est pas répertorié sur cette période ou sur les années");
-                Console.WriteLine(" précédentes!");
-            }
+            entite[] tab1 = tSpePrenom(entites, prenom, anneeCharniere - 1, entites[entites.Length - 1].annee);         
+            double m1 = moyenne(tab1);            
+            double E = ecartType(tab1, m1);            
+            double m2 = moyenne(tab2);
+            tendance(m1, m2, E, prenom);
         }
         // Donne le Top 100 d'une année donnée. 
         // Entrée : Copie du fichier (entites)
